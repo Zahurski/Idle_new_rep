@@ -1,6 +1,7 @@
 using IdleTycoon.Configs;
 using System.Collections;
 using UnityEngine;
+using Zenject;
 
 namespace IdleTycoon.GasStation
 {
@@ -8,12 +9,18 @@ namespace IdleTycoon.GasStation
     {
         [SerializeField] private GameObject carPrefab;
         [SerializeField] private Transform spawn;
-        [SerializeField] private GasStationConfig config;
 
         private bool isAvailable = true;
         private bool spawnDelay = true;
 
         private Pool pool;
+        private GasStationConfig config;
+
+        [Inject]
+        private void Init(GasStationConfig config)
+        {
+            this.config = config;
+        }
 
         private void Start()
         {
