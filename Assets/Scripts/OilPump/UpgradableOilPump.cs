@@ -1,16 +1,23 @@
 using IdleTycoon.Configs;
 using UnityEngine;
+using Zenject;
 
 namespace IdleTycoon.OilPump
 {
     public class UpgradableOilPump : MonoBehaviour
     {
         [SerializeField] private OilPumpButtonController button;
-        [SerializeField] private OilPumpConfig config;
 
         private float currentCost = 0f;
+        private OilPumpConfig config;
 
         public float CurrentCost => currentCost;
+
+        [Inject]
+        private void Init(OilPumpConfig config)
+        {
+            this.config = config;
+        }
 
         private void Start()
         {

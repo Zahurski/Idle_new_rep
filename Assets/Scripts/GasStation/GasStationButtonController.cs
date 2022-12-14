@@ -4,6 +4,7 @@ using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace IdleTycoon.GasStation
 {
@@ -17,11 +18,18 @@ namespace IdleTycoon.GasStation
         [SerializeField] private TextMeshProUGUI upgradeCost = null;
         [SerializeField] private TextMeshProUGUI costFueling = null;
         [SerializeField] private TextMeshProUGUI costSpawnDelay = null;
-        [SerializeField] private GasStationConfig config;
         [SerializeField] public Image fuelingProgressBar;
         [SerializeField] public Image spawnProgressBar;
 
         private UpgradableGasStation upgradableGasStation;
+
+        private GasStationConfig config;
+
+        [Inject]
+        private void Init(GasStationConfig config)
+        {
+            this.config = config;
+        }
 
         private void Awake()
         {
@@ -36,8 +44,10 @@ namespace IdleTycoon.GasStation
         public void RefreshGasStationInfo()
         {
             levelText.text = "Уровень: " + config.Level;
-            fuelingTimeText.text = "Время заправки: " + Math.Round(config.FuelingTime, 2).ToString(CultureInfo.InvariantCulture) + "c";
-            carsSpawnDelay.text = "Машин в минуту: " + Math.Round(60f / config.SpawnDelay, 1).ToString(CultureInfo.InvariantCulture);
+            fuelingTimeText.text = "Время заправки: " +
+                                   Math.Round(config.FuelingTime, 2).ToString(CultureInfo.InvariantCulture) + "c";
+            carsSpawnDelay.text = "Машин в минуту: " +
+                                  Math.Round(60f / config.SpawnDelay, 1).ToString(CultureInfo.InvariantCulture);
             profitText.text = FormatNums.FormatNum(config.Cost);
             upgradeCost.text = FormatNums.FormatNum(upgradableGasStation.CurrentCost);
             costFueling.text = FormatNums.FormatNum(config.CostFueling);

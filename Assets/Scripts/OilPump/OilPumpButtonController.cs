@@ -4,6 +4,7 @@ using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace IdleTycoon.OilPump
 {
@@ -18,14 +19,20 @@ namespace IdleTycoon.OilPump
         [SerializeField] private TextMeshProUGUI upgradeCost = null;
         [SerializeField] private TextMeshProUGUI costFueling = null;
         [SerializeField] private TextMeshProUGUI costSpawnDelay = null;
-        [SerializeField] private OilPumpConfig config;
         [SerializeField] private Image fuelingProgressBar;
         [SerializeField] private Image spawnProgressBar;
 
         private UpgradableOilPump upgradableOilPump;
+        private OilPumpConfig config;
 
         public Image FuelingProgressBar => fuelingProgressBar;
         public Image SpawnProgressBar => spawnProgressBar;
+
+        [Inject]
+        private void Init(OilPumpConfig config)
+        {
+            this.config = config;
+        }
 
         private void Awake()
         {

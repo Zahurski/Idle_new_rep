@@ -2,18 +2,26 @@ using IdleTycoon.Ads;
 using IdleTycoon.Configs;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace IdleTycoon.GasStation
 {
     public class MoneyIncreaseText : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI text;
-        [SerializeField] private GasStationConfig config;
+
         private readonly Vector3 targetPositionText = new Vector3(0, 4, 0);
 
         private AdsController ads;
+        private GasStationConfig config;
 
         public bool Fuel { get; set; }
+
+        [Inject]
+        public void Init(GasStationConfig config)
+        {
+            this.config = config;
+        }
 
         private void Awake()
         {
@@ -37,7 +45,8 @@ namespace IdleTycoon.GasStation
         private void ShowFuelText()
         {
             if (text.transform.position == targetPositionText) Fuel = false;
-            text.transform.position = Vector3.MoveTowards(text.transform.position, targetPositionText, 2 * Time.deltaTime);
+            text.transform.position =
+                Vector3.MoveTowards(text.transform.position, targetPositionText, 2 * Time.deltaTime);
         }
     }
 }

@@ -3,19 +3,27 @@ using IdleTycoon.Components;
 using IdleTycoon.Configs;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace IdleTycoon.OilPump
 {
     public class OilPumpMoneyIncreaseText : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI text;
-        [SerializeField] private OilPumpConfig config;
 
         private Vector3 targetPositionText;
         private OilPumpComponent oilPump;
         private AdsController ads;
 
+        private OilPumpConfig config;
+
         public bool Pump { get; set; }
+
+        [Inject]
+        private void Init(OilPumpConfig config)
+        {
+            this.config = config;
+        }
 
         private void Awake()
         {

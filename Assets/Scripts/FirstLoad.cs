@@ -5,14 +5,13 @@ using IdleTycoon.Configs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace IdleTycoon
 {
     public class FirstLoad : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI textMoneyOffline;
-        [SerializeField] private GasStationConfig gasStation;
-        [SerializeField] private OilPumpConfig oilPump;
         [SerializeField] private Button button;
 
         private RewardedAdsButton ads;
@@ -23,6 +22,16 @@ namespace IdleTycoon
         private float moneySum;
         private float totalMoney;
         private bool active = false;
+
+        private GasStationConfig gasStation;
+        private OilPumpConfig oilPump;
+
+        [Inject]
+        private void Init(GasStationConfig gasStation, OilPumpConfig oilPump)
+        {
+            this.oilPump = oilPump;
+            this.gasStation = gasStation;
+        }
 
         private void Awake()
         {

@@ -2,17 +2,24 @@ using System.Collections;
 using IdleTycoon.Ads;
 using IdleTycoon.Configs;
 using UnityEngine;
+using Zenject;
 
 namespace IdleTycoon.OilPump
 {
     public class OilPump : MonoBehaviour
     {
-        [SerializeField] private OilPumpConfig config;
-
         private bool complete;
         private AdsController ads;
         private OilPumpMoneyIncreaseText oilPumpMoneyIncreaseText;
         private OilPumpLoading oilPumpLoading;
+
+        private OilPumpConfig config;
+
+        [Inject]
+        private void Init(OilPumpConfig config)
+        {
+            this.config = config;
+        }
 
         private void Awake()
         {
@@ -37,7 +44,6 @@ namespace IdleTycoon.OilPump
                 GameManager.Instance.Money += config.Cost * ads.AdvMultiplier;
                 yield return new WaitForSeconds(0.01f);
             }
-            yield return null;
         }
     }
 }

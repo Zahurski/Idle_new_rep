@@ -12,6 +12,7 @@ namespace IdleTycoon.GasStation
         private const string GAS_STATION_TAG = "GasStation";
 
         [SerializeField] private Transform target;
+        //todo d.gankov прокидывать через фабрику
         [SerializeField] private GasStationConfig config;
 
         private float currentSpeed;
@@ -37,7 +38,8 @@ namespace IdleTycoon.GasStation
             Destroy();
             currentSpeed = !stop ? config.CarSpeed : 0f;
 
-            transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.deltaTime);
+            transform.position =
+                Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.deltaTime);
         }
 
 

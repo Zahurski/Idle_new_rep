@@ -1,17 +1,25 @@
 using IdleTycoon.Configs;
 using UnityEngine;
+using Zenject;
 
 namespace IdleTycoon.GasStation
 {
     public class UpgradableGasStation : MonoBehaviour
     {
         [SerializeField] private GasStationButtonController button;
-        [SerializeField] private GasStationConfig config;
 
         private float currentCost = 0f;
         private float currentFuelingTime;
 
+        private GasStationConfig config;
+
         public float CurrentCost => currentCost;
+
+        [Inject]
+        private void Init(GasStationConfig config)
+        {
+            this.config = config;
+        }
 
         private void Start()
         {
