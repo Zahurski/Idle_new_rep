@@ -1,7 +1,7 @@
-using OilPump.Config;
+using IdleTycoon.OilPump.Config;
 using UnityEngine;
 
-namespace OilPump
+namespace IdleTycoon.OilPump
 {
     public class UpgradableOilPump : MonoBehaviour
     {

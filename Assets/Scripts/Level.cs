@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
-namespace DefaultNamespace
+namespace IdleTycoon
 {
     public class Level : MonoBehaviour
     {

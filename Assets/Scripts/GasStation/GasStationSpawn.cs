@@ -1,53 +1,55 @@
-using System;
 using System.Collections;
-using GasStation.Config;
+using IdleTycoon.GasStation.Config;
 using UnityEngine;
 
-public class GasStationSpawn : MonoBehaviour
+namespace IdleTycoon.GasStation
 {
-    [SerializeField] private GameObject carPrefab;
-    [SerializeField] private Transform spawn;
-    [SerializeField] private GasStationConfig config;
-    private bool _isAvailable = true;
-    private bool _spawnDelay = true;
-
-    private Pool _pool;
-
-    private void Start()
+    public class GasStationSpawn : MonoBehaviour
     {
-        _pool = FindObjectOfType<Pool>();
-        StartCoroutine(SpawnDelay());
-    }
+        [SerializeField] private GameObject carPrefab;
+        [SerializeField] private Transform spawn;
+        [SerializeField] private GasStationConfig config;
+        private bool _isAvailable = true;
+        private bool _spawnDelay = true;
 
-    private void Update()
-    {
-        if (!_isAvailable) return;
-        if (!_spawnDelay) return;
-        _pool.GetFreeElement(spawn.position, Quaternion.identity);
-        _isAvailable = false;
-        _spawnDelay = false;
-        StartCoroutine(SpawnDelay());
-    }
+        private Pool _pool;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Car"))
+        private void Start()
         {
+            _pool = FindObjectOfType<Pool>();
+            StartCoroutine(SpawnDelay());
+        }
+
+        private void Update()
+        {
+            if (!_isAvailable) return;
+            if (!_spawnDelay) return;
+            _pool.GetFreeElement(spawn.position, Quaternion.identity);
             _isAvailable = false;
+            _spawnDelay = false;
+            StartCoroutine(SpawnDelay());
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Car"))
+        private void OnTriggerEnter(Collider other)
         {
-            _isAvailable = true;
+            if (other.gameObject.CompareTag("Car"))
+            {
+                _isAvailable = false;
+            }
         }
-    }
 
-    private IEnumerator SpawnDelay()
-    {
-        yield return new WaitForSeconds(config.SpawnDelay);
-        _spawnDelay = true;
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.CompareTag("Car"))
+            {
+                _isAvailable = true;
+            }
+        }
+
+        private IEnumerator SpawnDelay()
+        {
+            yield return new WaitForSeconds(config.SpawnDelay);
+            _spawnDelay = true;
+        }
     }
 }

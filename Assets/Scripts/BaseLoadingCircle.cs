@@ -1,17 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BaseLoadingCircle : MonoBehaviour
+namespace IdleTycoon
 {
-    protected static void GetCircle(Canvas canvas, Image loadingImage, bool active, float value)
+    public class BaseLoadingCircle : MonoBehaviour
     {
-        if (!active)
+        protected static void GetCircle(Canvas canvas, Image loadingImage, bool active, float value)
         {
-            canvas.enabled = false;
-            loadingImage.fillAmount = 0;
-            return;
+            if (!active)
+            {
+                canvas.enabled = false;
+                loadingImage.fillAmount = 0;
+                return;
+            }
+            canvas.enabled = true;
+            loadingImage.fillAmount += 1f / value * Time.deltaTime;
         }
-        canvas.enabled = true;
-        loadingImage.fillAmount += 1f / value * Time.deltaTime;
     }
 }

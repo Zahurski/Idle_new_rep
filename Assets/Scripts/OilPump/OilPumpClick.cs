@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace OilPump
+namespace IdleTycoon.OilPump
 {
     public class OilPumpClick : MonoBehaviour
     {

@@ -1,9 +1,7 @@
-using System;
-using GasStation.Config;
-using TMPro;
+using IdleTycoon.GasStation.Config;
 using UnityEngine;
 
-namespace GasStation
+namespace IdleTycoon.GasStation
 {
     public class UpgradableGasStation : MonoBehaviour
     {

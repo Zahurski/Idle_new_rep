@@ -1,13 +1,11 @@
 using System;
 using System.Globalization;
-using GasStation;
-using GasStation.Config;
-using OilPump.Config;
+using IdleTycoon.OilPump.Config;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OilPump
+namespace IdleTycoon.OilPump
 {
     public class OilPumpButtonController : MonoBehaviour
     {

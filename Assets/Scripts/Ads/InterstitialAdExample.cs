@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Advertisements;
 
-namespace Ads
+namespace IdleTycoon.Ads
 {
     public class InterstitialAdExample : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
     {

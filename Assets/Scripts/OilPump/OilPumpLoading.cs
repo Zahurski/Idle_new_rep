@@ -1,9 +1,8 @@
-using GasStation.Config;
-using OilPump.Config;
+using IdleTycoon.OilPump.Config;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OilPump
+namespace IdleTycoon.OilPump
 {
     public class OilPumpLoading : BaseLoadingCircle
     {

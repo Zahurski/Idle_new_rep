@@ -1,8 +1,8 @@
-using GasStation.Config;
+using IdleTycoon.GasStation.Config;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GasStation
+namespace IdleTycoon.GasStation
 {
     public class FuelingLoading : BaseLoadingCircle
     {

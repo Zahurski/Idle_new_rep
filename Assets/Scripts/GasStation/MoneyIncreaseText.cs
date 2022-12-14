@@ -1,11 +1,9 @@
-using System;
-using System.Globalization;
-using Ads;
+using IdleTycoon.Ads;
+using IdleTycoon.GasStation.Config;
 using TMPro;
 using UnityEngine;
-using GasStation.Config;
 
-namespace GasStation
+namespace IdleTycoon.GasStation
 {
     public class MoneyIncreaseText : MonoBehaviour
     {

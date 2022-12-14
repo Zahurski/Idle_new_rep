@@ -1,10 +1,9 @@
-using System;
 using System.Collections;
-using Ads;
-using OilPump.Config;
+using IdleTycoon.Ads;
+using IdleTycoon.OilPump.Config;
 using UnityEngine;
 
-namespace OilPump
+namespace IdleTycoon.OilPump
 {
     public class OilPump : MonoBehaviour
     {

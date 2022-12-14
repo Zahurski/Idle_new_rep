@@ -1,12 +1,10 @@
-using System;
-using System.Globalization;
-using Ads;
-using Components;
+using IdleTycoon.Ads;
+using IdleTycoon.Components;
+using IdleTycoon.OilPump.Config;
 using TMPro;
 using UnityEngine;
-using OilPump.Config;
 
-namespace OilPump
+namespace IdleTycoon.OilPump
 {
     public class OilPumpMoneyIncreaseText : MonoBehaviour
     {

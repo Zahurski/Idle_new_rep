@@ -1,12 +1,11 @@
-using System;
 using System.Collections;
-using Ads;
-using Components;
-using GasStation;
-using GasStation.Config;
-using Unity.VisualScripting;
+using IdleTycoon.Ads;
+using IdleTycoon.Components;
+using IdleTycoon.GasStation.Config;
 using UnityEngine;
 
+namespace IdleTycoon.GasStation
+{
     public class CarMoveble : MonoBehaviour
     {
         private const string CarTag = "Car";
@@ -90,3 +89,4 @@ using UnityEngine;
             GameManager.Instance.Money += config.Cost * _ads.AdvMultiplier;
         }
     }
+}

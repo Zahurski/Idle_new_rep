@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ads
+namespace IdleTycoon.Ads
 {
     public class AdsController : MonoBehaviour
     {

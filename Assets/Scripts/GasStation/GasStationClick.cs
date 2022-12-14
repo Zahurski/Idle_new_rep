@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace GasStation
+namespace IdleTycoon.GasStation
 {
     public class GasStationClick : MonoBehaviour
     {

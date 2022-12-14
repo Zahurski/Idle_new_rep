@@ -1,35 +1,36 @@
-using System;
-using System.Globalization;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
-public class UIGameScreen : MonoBehaviour
+namespace IdleTycoon
 {
-    [SerializeField] private TextMeshProUGUI moneyText;
-    [SerializeField] private TextMeshProUGUI diamondText;
-
-    private void Start()
+    public class UIGameScreen : MonoBehaviour
     {
-        GameManager.Instance.LoadData += RefreshMoney;
-        OnMoneyValueChanged(GameManager.Instance.Money);
-        OnDiamondValueChanged(GameManager.Instance.Diamond);
-        GameManager.Instance.OnMoneyValueChange += OnMoneyValueChanged;
-        GameManager.Instance.OnDiamondValueChange += OnDiamondValueChanged;
-    }
+        [SerializeField] private TextMeshProUGUI moneyText;
+        [SerializeField] private TextMeshProUGUI diamondText;
 
-    private void OnMoneyValueChanged(float value)
-    {
-        moneyText.text = FormatNums.FormatNum(value);
-    }
+        private void Start()
+        {
+            GameManager.Instance.LoadData += RefreshMoney;
+            OnMoneyValueChanged(GameManager.Instance.Money);
+            OnDiamondValueChanged(GameManager.Instance.Diamond);
+            GameManager.Instance.OnMoneyValueChange += OnMoneyValueChanged;
+            GameManager.Instance.OnDiamondValueChange += OnDiamondValueChanged;
+        }
+
+        private void OnMoneyValueChanged(float value)
+        {
+            moneyText.text = FormatNums.FormatNum(value);
+        }
     
-    private void OnDiamondValueChanged(float value)
-    {
-        diamondText.text = FormatNums.FormatNum(value);
-    }
+        private void OnDiamondValueChanged(float value)
+        {
+            diamondText.text = FormatNums.FormatNum(value);
+        }
 
-    private void RefreshMoney()
-    {
-        moneyText.text = FormatNums.FormatNum(GameManager.Instance.Money);
-        GameManager.Instance.LoadData -= RefreshMoney;
+        private void RefreshMoney()
+        {
+            moneyText.text = FormatNums.FormatNum(GameManager.Instance.Money);
+            GameManager.Instance.LoadData -= RefreshMoney;
+        }
     }
 }

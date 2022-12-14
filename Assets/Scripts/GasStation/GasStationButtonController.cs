@@ -1,11 +1,11 @@
 using System;
 using System.Globalization;
-using GasStation.Config;
+using IdleTycoon.GasStation.Config;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GasStation
+namespace IdleTycoon.GasStation
 {
     public class GasStationButtonController : MonoBehaviour
     {

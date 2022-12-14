@@ -1,11 +1,8 @@
 using UnityEngine;
 using UnityEngine.Advertisements;
 
-namespace Ads
+namespace IdleTycoon.Ads
 {
-    using UnityEngine;
-    using UnityEngine.Advertisements;
- 
     public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
     {
         [SerializeField] private bool _testMode = true;

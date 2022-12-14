@@ -1,67 +1,67 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SoundManager : MonoBehaviour
+namespace IdleTycoon
 {
-    [SerializeField] private Slider volumeSlider;
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip audioClipClose;
-    [SerializeField] private AudioClip audioClipMoney;
-
-    private const string MUSIC_VOLUME = "musicVolume";
-    private UIManager _uiManager;
-
-    private void Awake()
+    public class SoundManager : MonoBehaviour
     {
-        _uiManager = FindObjectOfType<UIManager>();
-    }
+        [SerializeField] private Slider volumeSlider;
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioClip audioClipClose;
+        [SerializeField] private AudioClip audioClipMoney;
 
-    private void Start()
-    {
-        if (!PlayerPrefs.HasKey(MUSIC_VOLUME))
+        private const string MUSIC_VOLUME = "musicVolume";
+        private UIManager _uiManager;
+
+        private void Awake()
         {
-            PlayerPrefs.SetFloat(MUSIC_VOLUME, 30);
-        }
-        else
-        {
-            Load();
+            _uiManager = FindObjectOfType<UIManager>();
         }
 
-        _uiManager.CloseMenu += CloseSound;
-        GameManager.Instance.IncreaseMoney += IncreaseMoney;
-    }
+        private void Start()
+        {
+            if (!PlayerPrefs.HasKey(MUSIC_VOLUME))
+            {
+                PlayerPrefs.SetFloat(MUSIC_VOLUME, 30);
+            }
+            else
+            {
+                Load();
+            }
 
-    private void FixedUpdate()
-    {
-        ChangeVolume();
-    }
+            _uiManager.CloseMenu += CloseSound;
+            GameManager.Instance.IncreaseMoney += IncreaseMoney;
+        }
 
-    public void ChangeVolume()
-    {
-        AudioListener.volume = volumeSlider.value;
-        Save();
-    }
+        private void FixedUpdate()
+        {
+            ChangeVolume();
+        }
 
-    private void Load()
-    {
-        volumeSlider.value = PlayerPrefs.GetFloat(MUSIC_VOLUME);
-    }
+        public void ChangeVolume()
+        {
+            AudioListener.volume = volumeSlider.value;
+            Save();
+        }
 
-    private void Save()
-    {
-        PlayerPrefs.SetFloat(MUSIC_VOLUME, volumeSlider.value);
-    }
+        private void Load()
+        {
+            volumeSlider.value = PlayerPrefs.GetFloat(MUSIC_VOLUME);
+        }
 
-    private void CloseSound()
-    {
-        audioSource.PlayOneShot(audioClipClose);
-    }
+        private void Save()
+        {
+            PlayerPrefs.SetFloat(MUSIC_VOLUME, volumeSlider.value);
+        }
 
-    private void IncreaseMoney()
-    {
-        audioSource.PlayOneShot(audioClipMoney);
+        private void CloseSound()
+        {
+            audioSource.PlayOneShot(audioClipClose);
+        }
+
+        private void IncreaseMoney()
+        {
+            audioSource.PlayOneShot(audioClipMoney);
+        }
     }
 }

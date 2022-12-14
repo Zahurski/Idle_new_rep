@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
-namespace Ads
+namespace IdleTycoon.Ads
 {
     public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
     {
