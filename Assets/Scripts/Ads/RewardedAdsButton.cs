@@ -6,11 +6,13 @@ namespace IdleTycoon.Ads
 {
     public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
     {
-        private static string ANDROID_AD_UNIT_ID = "Rewarded_Android";
-        private static string IOS_AD_UNIT_ID = "Rewarded_iOS";
+        private const string ANDROID_AD_UNIT_ID = "Rewarded_Android";
+        private const string IOS_AD_UNIT_ID = "Rewarded_iOS";
+
         private string _adUnitId = null; // This will remain null for unsupported platforms
 
         public event Action RewardedAdsShowComplete;
+
         private void Awake()
         {
             // Get the Ad Unit ID for the current platform:

@@ -21,7 +21,7 @@ namespace IdleTycoon
         {
             moneyText.text = FormatNums.FormatNum(value);
         }
-    
+
         private void OnDiamondValueChanged(float value)
         {
             diamondText.text = FormatNums.FormatNum(value);

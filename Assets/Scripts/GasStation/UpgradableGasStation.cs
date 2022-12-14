@@ -18,7 +18,7 @@ namespace IdleTycoon.GasStation
             {
                 _currentCost = config.StartUpgradeCost;
             }
-            
+
             button.RefreshGasStationInfo();
             RefreshFuelingBar();
         }
@@ -40,7 +40,7 @@ namespace IdleTycoon.GasStation
         public void UpgradeFueling()
         {
             //TODO: добавить интеректибл кнопки
-            if(config.LevelFueling == 50) return;
+            if (config.LevelFueling == 50) return;
 
             if (GameManager.Instance.Money >= config.CostFueling)
             {
@@ -52,14 +52,15 @@ namespace IdleTycoon.GasStation
                 {
                     button.fuelingProgressBar.fillAmount += 1f / (50 - config.LevelFueling);
                 }
+
                 button.RefreshGasStationInfo();
             }
         }
 
         public void UpgradeSpawnDelay()
         {
-            if(config.LevelSpawnDelay == 50) return;
-            
+            if (config.LevelSpawnDelay == 50) return;
+
             if (GameManager.Instance.Money >= config.CostSpawnDelay)
             {
                 config.LevelSpawnDelay++;
@@ -70,6 +71,7 @@ namespace IdleTycoon.GasStation
                 {
                     button.spawnProgressBar.fillAmount += 1f / (50 - config.LevelSpawnDelay);
                 }
+
                 button.RefreshGasStationInfo();
             }
         }
@@ -80,7 +82,7 @@ namespace IdleTycoon.GasStation
             {
                 button.fuelingProgressBar.fillAmount = 1f / (50f / config.LevelFueling);
             }
-            
+
             if (config.LevelSpawnDelay != 0)
             {
                 button.spawnProgressBar.fillAmount = 1f / (50f / config.LevelSpawnDelay);

@@ -11,9 +11,9 @@ namespace IdleTycoon.OilPump
     {
         //TODO нужно всю инфу перевести в минуты
         //TODO все переменные через сохранения а не через конфиги, в конфигах только начальные значения.
-        [SerializeField] private TextMeshProUGUI levelText= null;
+        [SerializeField] private TextMeshProUGUI levelText = null;
         [SerializeField] private TextMeshProUGUI pumpingTimeText = null;
-        [SerializeField] private TextMeshProUGUI pumpingDelay= null;
+        [SerializeField] private TextMeshProUGUI pumpingDelay = null;
         [SerializeField] private TextMeshProUGUI profitText = null;
         [SerializeField] private TextMeshProUGUI upgradeCost = null;
         [SerializeField] private TextMeshProUGUI costFueling = null;
@@ -39,7 +39,7 @@ namespace IdleTycoon.OilPump
         {
             levelText.text = "Уровень: " + config.Level;
             pumpingTimeText.text = "Время добычи: " + Math.Round(config.PumpingTime, 2).ToString(CultureInfo.InvariantCulture) + "c";
-            pumpingDelay.text = "добыча в минуту: " + Math.Round(60f / config.PumpingTime , 1).ToString(CultureInfo.InvariantCulture);
+            pumpingDelay.text = "добыча в минуту: " + Math.Round(60f / config.PumpingTime, 1).ToString(CultureInfo.InvariantCulture);
             profitText.text = FormatNums.FormatNum(config.Cost);
             upgradeCost.text = FormatNums.FormatNum(_upgradableOilPump.CurrentCost);
             costFueling.text = FormatNums.FormatNum(config.CostPumping);

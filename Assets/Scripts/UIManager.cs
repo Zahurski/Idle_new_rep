@@ -11,9 +11,9 @@ namespace IdleTycoon
         [SerializeField] private GameObject firtsEntry;
         [SerializeField] private GameObject levelMenu;
         [SerializeField] private GameObject settings;
-    
+
         private GameObject _currentScreen;
-    
+
         public event Action CloseMenu;
 
         public GameObject CurrentScreen => _currentScreen;
@@ -35,14 +35,14 @@ namespace IdleTycoon
             gameScreen.SetActive(true);
             _currentScreen = gameScreen;
         }
-    
+
         public void ShowFirstEntryMenu()
         {
             _currentScreen.SetActive(false);
             firtsEntry.SetActive(true);
             _currentScreen = firtsEntry;
         }
-    
+
         public void ShowSettingsMenu()
         {
             _currentScreen.SetActive(false);

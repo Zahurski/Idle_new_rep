@@ -12,7 +12,7 @@ namespace IdleTycoon
         [SerializeField] private GameObject levelContainer;
         [SerializeField] private GameObject levelMenu;
         [SerializeField] private Image levelImage;
-        
+
         private UIManager _uiManager;
 
         private int _level = 1;
@@ -38,12 +38,12 @@ namespace IdleTycoon
 
         private IEnumerator IncreaseLevel()
         {
-            while(Math.Abs(levelImage.fillAmount - 1) > 0)
+            while (Math.Abs(levelImage.fillAmount - 1) > 0)
             {
                 levelImage.fillAmount += 1f / (_level * 5) * Time.deltaTime;
                 yield return null;
             }
-            
+
             StopCoroutine(IncreaseLevel());
             LevelUpMenu();
         }
@@ -81,12 +81,12 @@ namespace IdleTycoon
         {
             StopCoroutine(ShakeButton());
             GameManager.Instance.Diamond += 10;
-            
+
             if (_level < 4)
             {
                 _level++;
             }
-            
+
             levelUpButton.gameObject.SetActive(false);
             levelContainer.SetActive(true);
             Initialize();

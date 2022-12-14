@@ -17,11 +17,11 @@ namespace IdleTycoon.OilPump
             {
                 _currentCost = config.StartUpgradeCost;
             }
-            
+
             button.RefreshOilPumpInfo();
             RefreshPumpBar();
         }
-        
+
         public void UpgradeCost()
         {
             if (GameManager.Instance.Money >= _currentCost)
@@ -35,11 +35,11 @@ namespace IdleTycoon.OilPump
                 _currentCost = newCost;
             }
         }
-        
+
         public void UpgradeFueling()
         {
             //TODO: добавить интеректибл кнопки
-            if(config.LevelPumping == 50) return;
+            if (config.LevelPumping == 50) return;
 
             if (GameManager.Instance.Money >= config.CostPumping)
             {
@@ -51,14 +51,15 @@ namespace IdleTycoon.OilPump
                 {
                     button.fuelingProgressBar.fillAmount += 1f / (50 - config.LevelPumping);
                 }
+
                 button.RefreshOilPumpInfo();
             }
         }
 
         public void UpgradeSpawnDelay()
         {
-            if(config.LevelPumpingDelay == 50) return;
-            
+            if (config.LevelPumpingDelay == 50) return;
+
             if (GameManager.Instance.Money >= config.CostPumpingDelay)
             {
                 config.LevelPumpingDelay++;
@@ -69,6 +70,7 @@ namespace IdleTycoon.OilPump
                 {
                     button.spawnProgressBar.fillAmount += 1f / (50 - config.LevelPumpingDelay);
                 }
+
                 button.RefreshOilPumpInfo();
             }
         }
@@ -79,7 +81,7 @@ namespace IdleTycoon.OilPump
             {
                 button.fuelingProgressBar.fillAmount = 1f / (50f / config.LevelPumping);
             }
-            
+
             if (config.LevelPumpingDelay != 0)
             {
                 button.spawnProgressBar.fillAmount = 1f / (50f / config.LevelPumpingDelay);

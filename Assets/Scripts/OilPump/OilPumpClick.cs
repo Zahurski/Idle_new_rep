@@ -15,8 +15,8 @@ namespace IdleTycoon.OilPump
 
         private void OnMouseUp()
         {
-            if(_uiManager.CurrentScreen != _uiManager.GameScreen) return;
-            if(_cameraController.Moveble) return;
+            if (_uiManager.CurrentScreen != _uiManager.GameScreen) return;
+            if (_cameraController.Moveble) return;
             _uiManager.ShowOilPumpUpgradeMenu();
         }
     }

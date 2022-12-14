@@ -10,7 +10,7 @@ namespace IdleTycoon.GasStation
         [SerializeField] private TextMeshProUGUI text;
         [SerializeField] private GasStationConfig config;
         private readonly Vector3 _targetPositionText = new(0, 4, 0);
-        
+
         private AdsController _ads;
 
         public bool Fuel { get; set; }

@@ -11,7 +11,6 @@ namespace IdleTycoon
 {
     public class FirstLoad : MonoBehaviour
     {
-    
         [SerializeField] private TextMeshProUGUI textMoneyOffline;
         [SerializeField] private GasStationConfig gasStation;
         [SerializeField] private OilPumpConfig oilPump;
@@ -19,7 +18,7 @@ namespace IdleTycoon
         private RewardedAdsButton _ads;
         private InterstitialAdExample _interstitial;
         private UIManager _uiManager;
-    
+
         private int _decreaseDiamond = 20;
         private float _moneySum;
         private float _totalMoney;
@@ -45,43 +44,43 @@ namespace IdleTycoon
         {
             button.interactable = GameManager.Instance.Diamond > _decreaseDiamond;
         }
-    
+
         public void Getx3()
         {
             GameManager.Instance.Diamond -= _decreaseDiamond;
-            GameManager.Instance.Money += (float)Math.Round(_totalMoney * 3, 0);
+            GameManager.Instance.Money += (float) Math.Round(_totalMoney * 3, 0);
             _uiManager.Close();
             _interstitial.ShowAd();
         }
-    
+
         public void Getx2()
         {
             _active = true;
             _ads.ShowAd();
         }
-    
+
         public void Getx1()
         {
-            GameManager.Instance.Money += (float)Math.Round(_totalMoney, 0);
-            print("Добавлено: " + (float)Math.Round(_totalMoney, 0));
+            GameManager.Instance.Money += (float) Math.Round(_totalMoney, 0);
+            print("Добавлено: " + (float) Math.Round(_totalMoney, 0));
             _ads.RewardedAdsShowComplete -= GetBounty;
             _uiManager.Close();
         }
 
         private void GetBounty()
         {
-            if(!_active) return;
-            GameManager.Instance.Money += (float)Math.Round(_totalMoney * 2, 0);
-            print("Добавлено: " + (float)Math.Round(_totalMoney, 0));
+            if (!_active) return;
+            GameManager.Instance.Money += (float) Math.Round(_totalMoney * 2, 0);
+            print("Добавлено: " + (float) Math.Round(_totalMoney, 0));
             _ads.RewardedAdsShowComplete -= GetBounty;
             _active = false;
             _uiManager.Close();
         }
-    
+
         private void CalculateOfflineIncome()
         {
             var lastPlayedTimeString = PlayerPrefs.GetString(GameManager.LastPlayedTime, null);
-            if(lastPlayedTimeString == null) return;
+            if (lastPlayedTimeString == null) return;
 
             var lastPlayedTime = DateTime.Parse(lastPlayedTimeString, CultureInfo.CurrentCulture);
             int timeSpanRestriction = 2 * 60 * 60;
@@ -90,7 +89,7 @@ namespace IdleTycoon
             if (secondSpan > timeSpanRestriction)
                 secondSpan = timeSpanRestriction;
 
-            _totalMoney = (float)secondSpan * _moneySum/10;
+            _totalMoney = (float) secondSpan * _moneySum / 10;
             print("Вас небыло в игре: " + secondSpan + "Вы заработали: " + _totalMoney);
         }
     }

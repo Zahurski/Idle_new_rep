@@ -12,6 +12,7 @@ namespace IdleTycoon.OilPump
         private AdsController _ads;
         private OilPumpMoneyIncreaseText _oilPumpMoneyIncreaseText;
         private OilPumpLoading _oilPumpLoading;
+
         private void Awake()
         {
             _ads = FindObjectOfType<AdsController>();

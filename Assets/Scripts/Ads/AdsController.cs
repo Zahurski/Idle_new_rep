@@ -8,7 +8,7 @@ namespace IdleTycoon.Ads
     {
         [SerializeField] private int adsMultiplier = 1;
         [SerializeField] private Button button;
-        
+
         private RewardedAdsButton _ads;
         private bool _active = false;
 
@@ -38,9 +38,10 @@ namespace IdleTycoon.Ads
 
         private void StartCoroutineRewarded()
         {
-            if(!_active) return;
+            if (!_active) return;
             StartCoroutine(AdsActiveTime());
         }
+
         private IEnumerator AdsActiveTime()
         {
             adsMultiplier = 2;

@@ -10,9 +10,9 @@ namespace IdleTycoon.GasStation
     public class GasStationButtonController : MonoBehaviour
     {
         //TODO все переменные через сохранения а не через конфиги, в конфигах только начальные значения.
-        [SerializeField] private TextMeshProUGUI levelText= null;
+        [SerializeField] private TextMeshProUGUI levelText = null;
         [SerializeField] private TextMeshProUGUI fuelingTimeText = null;
-        [SerializeField] private TextMeshProUGUI carsSpawnDelay= null;
+        [SerializeField] private TextMeshProUGUI carsSpawnDelay = null;
         [SerializeField] private TextMeshProUGUI profitText = null;
         [SerializeField] private TextMeshProUGUI upgradeCost = null;
         [SerializeField] private TextMeshProUGUI costFueling = null;
@@ -37,7 +37,7 @@ namespace IdleTycoon.GasStation
         {
             levelText.text = "Уровень: " + config.Level;
             fuelingTimeText.text = "Время заправки: " + Math.Round(config.FuelingTime, 2).ToString(CultureInfo.InvariantCulture) + "c";
-            carsSpawnDelay.text = "Машин в минуту: " + Math.Round(60f / config.SpawnDelay , 1).ToString(CultureInfo.InvariantCulture);
+            carsSpawnDelay.text = "Машин в минуту: " + Math.Round(60f / config.SpawnDelay, 1).ToString(CultureInfo.InvariantCulture);
             profitText.text = FormatNums.FormatNum(config.Cost);
             upgradeCost.text = FormatNums.FormatNum(_upgradableGasStation.CurrentCost);
             costFueling.text = FormatNums.FormatNum(config.CostFueling);

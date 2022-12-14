@@ -13,6 +13,7 @@ namespace IdleTycoon
                 loadingImage.fillAmount = 0;
                 return;
             }
+
             canvas.enabled = true;
             loadingImage.fillAmount += 1f / value * Time.deltaTime;
         }

@@ -9,7 +9,7 @@ namespace IdleTycoon
         [SerializeField] private Vector3 minValue, maxValue;
 
         private UIManager _uiManager;
-    
+
         private Vector3 _newZoom;
         private Vector3 _newPosition;
         private Vector3 _dragStartPosition;
@@ -30,13 +30,13 @@ namespace IdleTycoon
 
         private void Update()
         {
-            if(_uiManager.CurrentScreen != _uiManager.GameScreen) return;
-        
+            if (_uiManager.CurrentScreen != _uiManager.GameScreen) return;
+
             _moveble = transform.position != _newPosition;
             HandleMouseInput();
             HandleMovementInput();
         }
-    
+
         private void HandleMouseInput()
         {
             //TODO: добавить скролы пальцами
@@ -44,12 +44,12 @@ namespace IdleTycoon
             {
                 camera.orthographicSize -= 1f;
             }
-        
+
             if (Input.mouseScrollDelta.y <= 0 && camera.orthographicSize <= 11)
             {
                 camera.orthographicSize += 1f;
             }
-        
+
             if (Input.GetMouseButtonDown(0))
             {
                 Plane plane = new Plane(Vector3.up, Vector3.zero);
@@ -57,8 +57,8 @@ namespace IdleTycoon
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 float entry;
-            
-                if(plane.Raycast(ray, out entry))
+
+                if (plane.Raycast(ray, out entry))
                 {
                     _dragStartPosition = ray.GetPoint(entry);
                 }
@@ -71,13 +71,13 @@ namespace IdleTycoon
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 float entry;
-            
-                if(plane.Raycast(ray, out entry))
+
+                if (plane.Raycast(ray, out entry))
                 {
                     _dragCurrentPosition = ray.GetPoint(entry);
 
                     _newPosition = transform.position + _dragStartPosition - _dragCurrentPosition;
-                
+
                     _clampPosition = new Vector3(
                         Mathf.Clamp(_newPosition.x, minValue.x, maxValue.x),
                         Mathf.Clamp(_newPosition.y, minValue.y, maxValue.y),
@@ -85,7 +85,7 @@ namespace IdleTycoon
                 }
             }
         }
-    
+
         private void HandleMovementInput()
         {
             transform.position = Vector3.Lerp(transform.position, _clampPosition, movementSpeed * Time.deltaTime);

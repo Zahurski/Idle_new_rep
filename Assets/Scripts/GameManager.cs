@@ -1,8 +1,6 @@
 using System;
 using System.Globalization;
 using UnityEngine;
-//using SDK;
-
 
 namespace IdleTycoon
 {
@@ -15,16 +13,16 @@ namespace IdleTycoon
 
         private UIManager _uiManager;
         //private FirebaseSave _firebaseSave;
-    
+
         private float _money = 0;
         private int _diamond = 0;
         public Action<float> OnMoneyValueChange = null;
         public Action<float> OnDiamondValueChange = null;
         public Action IncreaseMoney;
         public Action LoadData;
-    
+
         public static string LastPlayedTime => LAST_PLAYED_TIME;
-    
+
         private void Awake()
         {
             if (Instance == null)
@@ -60,13 +58,14 @@ namespace IdleTycoon
                     {
                         IncreaseMoney?.Invoke();
                     }
+
                     _money = value;
                     _money = (float) Math.Round(_money, 0);
                     OnMoneyValueChange?.Invoke(_money);
                 }
             }
         }
-    
+
         public int Diamond
         {
             get => _diamond;
@@ -77,7 +76,6 @@ namespace IdleTycoon
                 {
                     _diamond = value;
                     OnDiamondValueChange?.Invoke(_diamond);
-                
                 }
             }
         }
@@ -102,7 +100,7 @@ namespace IdleTycoon
                 _uiManager.Initialize();
                 //_money = PlayerPrefs.GetFloat(MONEY);
             }
-        
+
             if (!PlayerPrefs.HasKey(DIAMOND))
             {
                 PlayerPrefs.SetInt(DIAMOND, 0);
@@ -111,7 +109,7 @@ namespace IdleTycoon
             {
                 _diamond = PlayerPrefs.GetInt(DIAMOND);
             }
-        
+
             LoadData?.Invoke();
         }
     }

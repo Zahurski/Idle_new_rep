@@ -5,10 +5,11 @@ namespace IdleTycoon.Ads
 {
     public class BannerAdExample : MonoBehaviour
     {
+        private const string ANDROID_AD_UNIT_ID = "Banner_Android";
+        private const string IOS_AD_UNIT_ID = "Banner_iOS";
+
         [SerializeField] private BannerPosition _bannerPosition = BannerPosition.BOTTOM_CENTER;
 
-        private static string ANDROID_AD_UNIT_ID = "Banner_Android";
-        private static string IOS_AD_UNIT_ID = "Banner_iOS";
         private string _adUnitId = null; // This will remain null for unsupported platforms.
 
         private void Awake()

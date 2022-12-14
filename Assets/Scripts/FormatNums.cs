@@ -34,6 +34,5 @@ namespace IdleTycoon
 
             return num.ToString("#.#") + Names[i];
         }
-    
     }
 }
