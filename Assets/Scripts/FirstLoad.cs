@@ -1,8 +1,7 @@
 using System;
 using System.Globalization;
 using IdleTycoon.Ads;
-using IdleTycoon.GasStation.Config;
-using IdleTycoon.OilPump.Config;
+using IdleTycoon.Configs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

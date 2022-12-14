@@ -1,6 +1,6 @@
 using System.Collections;
 using IdleTycoon.Ads;
-using IdleTycoon.OilPump.Config;
+using IdleTycoon.Configs;
 using UnityEngine;
 
 namespace IdleTycoon.OilPump

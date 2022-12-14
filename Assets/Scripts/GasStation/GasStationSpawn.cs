@@ -1,5 +1,5 @@
+using IdleTycoon.Configs;
 using System.Collections;
-using IdleTycoon.GasStation.Config;
 using UnityEngine;
 
 namespace IdleTycoon.GasStation

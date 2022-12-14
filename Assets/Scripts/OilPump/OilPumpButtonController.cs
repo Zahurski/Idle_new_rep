@@ -1,6 +1,6 @@
+using IdleTycoon.Configs;
 using System;
 using System.Globalization;
-using IdleTycoon.OilPump.Config;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

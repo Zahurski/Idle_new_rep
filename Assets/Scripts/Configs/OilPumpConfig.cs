@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace IdleTycoon.OilPump.Config
+namespace IdleTycoon.Configs
 {
     [CreateAssetMenu(fileName = "OilPumpConfig", menuName = "Configs/OilPumpConfig", order = 0)]
     public class OilPumpConfig : ScriptableObject

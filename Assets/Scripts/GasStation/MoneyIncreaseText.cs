@@ -1,5 +1,5 @@
 using IdleTycoon.Ads;
-using IdleTycoon.GasStation.Config;
+using IdleTycoon.Configs;
 using TMPro;
 using UnityEngine;
 

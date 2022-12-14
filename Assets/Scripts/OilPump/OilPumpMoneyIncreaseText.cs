@@ -1,6 +1,6 @@
 using IdleTycoon.Ads;
 using IdleTycoon.Components;
-using IdleTycoon.OilPump.Config;
+using IdleTycoon.Configs;
 using TMPro;
 using UnityEngine;
 

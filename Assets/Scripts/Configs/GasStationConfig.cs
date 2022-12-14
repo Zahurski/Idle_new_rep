@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace IdleTycoon.GasStation.Config
+namespace IdleTycoon.Configs
 {
     [CreateAssetMenu(fileName = "GasStationConfig", menuName = "Configs/GasStationConfig", order = 0)]
     public class GasStationConfig : ScriptableObject

@@ -1,4 +1,4 @@
-using IdleTycoon.OilPump.Config;
+using IdleTycoon.Configs;
 using UnityEngine;
 
 namespace IdleTycoon.OilPump

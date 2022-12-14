@@ -1,4 +1,4 @@
-using IdleTycoon.GasStation.Config;
+using IdleTycoon.Configs;
 using UnityEngine;
 
 namespace IdleTycoon.GasStation
