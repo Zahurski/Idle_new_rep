@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.greenbamboogames.assetquickaccess": "1.1.0",
     "com.unity.ads": "4.3.0",
     "com.unity.collab-proxy": "1.17.6",
     "com.unity.feature.development": "1.0.1",
@@ -43,5 +44,15 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "OpenUPM",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.openupm",
+        "com.greenbamboogames.assetquickaccess"
+      ]
+    }
+  ]
 }
