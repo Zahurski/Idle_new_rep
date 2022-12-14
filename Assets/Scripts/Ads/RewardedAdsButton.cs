@@ -9,7 +9,8 @@ namespace IdleTycoon.Ads
         private const string ANDROID_AD_UNIT_ID = "Rewarded_Android";
         private const string IOS_AD_UNIT_ID = "Rewarded_iOS";
 
-        private string _adUnitId = null; // This will remain null for unsupported platforms
+        // This will remain null for unsupported platforms
+        private string _adUnitId = null;
 
         public event Action RewardedAdsShowComplete;
 

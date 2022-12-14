@@ -8,16 +8,17 @@ namespace IdleTycoon.OilPump
     public class OilPump : MonoBehaviour
     {
         [SerializeField] private OilPumpConfig config;
-        private bool _complete;
-        private AdsController _ads;
-        private OilPumpMoneyIncreaseText _oilPumpMoneyIncreaseText;
-        private OilPumpLoading _oilPumpLoading;
+
+        private bool complete;
+        private AdsController ads;
+        private OilPumpMoneyIncreaseText oilPumpMoneyIncreaseText;
+        private OilPumpLoading oilPumpLoading;
 
         private void Awake()
         {
-            _ads = FindObjectOfType<AdsController>();
-            _oilPumpMoneyIncreaseText = FindObjectOfType<OilPumpMoneyIncreaseText>();
-            _oilPumpLoading = FindObjectOfType<OilPumpLoading>();
+            ads = FindObjectOfType<AdsController>();
+            oilPumpMoneyIncreaseText = FindObjectOfType<OilPumpMoneyIncreaseText>();
+            oilPumpLoading = FindObjectOfType<OilPumpLoading>();
         }
 
         private void Start()
@@ -29,13 +30,14 @@ namespace IdleTycoon.OilPump
         {
             while (true)
             {
-                _oilPumpLoading.IsActive = true;
+                oilPumpLoading.IsActive = true;
                 yield return new WaitForSeconds(config.PumpingTime);
-                _oilPumpLoading.IsActive = false;
-                _oilPumpMoneyIncreaseText.Pump = true;
-                GameManager.Instance.Money += config.Cost * _ads.AdvMultiplier;
+                oilPumpLoading.IsActive = false;
+                oilPumpMoneyIncreaseText.Pump = true;
+                GameManager.Instance.Money += config.Cost * ads.AdvMultiplier;
                 yield return new WaitForSeconds(0.01f);
             }
+            yield return null;
         }
     }
 }

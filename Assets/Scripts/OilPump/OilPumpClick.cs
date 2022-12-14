@@ -4,20 +4,20 @@ namespace IdleTycoon.OilPump
 {
     public class OilPumpClick : MonoBehaviour
     {
-        private UIManager _uiManager;
-        private CameraController _cameraController;
+        private UIManager uiManager;
+        private CameraController cameraController;
 
         private void Start()
         {
-            _uiManager = FindObjectOfType<UIManager>();
-            _cameraController = FindObjectOfType<CameraController>();
+            uiManager = FindObjectOfType<UIManager>();
+            cameraController = FindObjectOfType<CameraController>();
         }
 
         private void OnMouseUp()
         {
-            if (_uiManager.CurrentScreen != _uiManager.GameScreen) return;
-            if (_cameraController.Moveble) return;
-            _uiManager.ShowOilPumpUpgradeMenu();
+            if (uiManager.CurrentScreen != uiManager.GameScreen) return;
+            if (cameraController.Movable) return;
+            uiManager.ShowOilPumpUpgradeMenu();
         }
     }
 }

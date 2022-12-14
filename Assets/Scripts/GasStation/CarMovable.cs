@@ -8,63 +8,63 @@ namespace IdleTycoon.GasStation
 {
     public class CarMovable : MonoBehaviour
     {
-        private const string CarTag = "Car";
-        private const string GasStationTag = "GasStation";
+        private const string CAR_TAG = "Car";
+        private const string GAS_STATION_TAG = "GasStation";
 
         [SerializeField] private Transform target;
         [SerializeField] private GasStationConfig config;
 
-        private float _currentSpeed;
-        private bool _stop;
-        private bool _fuel;
+        private float currentSpeed;
+        private bool stop;
+        private bool fuel;
 
-        private PoolObject _poolObject;
-        private FuelingLoading _fuelingLoading;
-        private MoneyIncreaseText _moneyIncreaseText;
-        private AdsController _ads;
+        private PoolObject poolObject;
+        private FuelingLoading fuelingLoading;
+        private MoneyIncreaseText moneyIncreaseText;
+        private AdsController ads;
 
         private void Awake()
         {
-            _ads = FindObjectOfType<AdsController>();
-            _poolObject = GetComponent<PoolObject>();
-            _fuelingLoading = FindObjectOfType<FuelingLoading>();
-            _moneyIncreaseText = FindObjectOfType<MoneyIncreaseText>();
+            ads = FindObjectOfType<AdsController>();
+            poolObject = GetComponent<PoolObject>();
+            fuelingLoading = FindObjectOfType<FuelingLoading>();
+            moneyIncreaseText = FindObjectOfType<MoneyIncreaseText>();
             target = FindObjectOfType<TargetComponent>().transform;
         }
 
         private void Update()
         {
             Destroy();
-            _currentSpeed = !_stop ? config.CarSpeed : 0f;
+            currentSpeed = !stop ? config.CarSpeed : 0f;
 
-            transform.position = Vector3.MoveTowards(transform.position, target.position, _currentSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.deltaTime);
         }
 
 
         private void OnTriggerEnter(Collider other)
         {
-            if (_fuel) return;
-            if (other.gameObject.CompareTag(CarTag))
+            if (fuel) return;
+            if (other.gameObject.CompareTag(CAR_TAG))
             {
-                _stop = true;
+                stop = true;
             }
-            else if (!other.gameObject.CompareTag(GasStationTag))
+            else if (!other.gameObject.CompareTag(GAS_STATION_TAG))
             {
-                _stop = false;
+                stop = false;
             }
             else
             {
-                _stop = true;
+                stop = true;
                 StartCoroutine(Fueling());
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (_fuel) return;
-            if (other.gameObject.CompareTag(CarTag))
+            if (fuel) return;
+            if (other.gameObject.CompareTag(CAR_TAG))
             {
-                _stop = false;
+                stop = false;
             }
         }
 
@@ -72,21 +72,21 @@ namespace IdleTycoon.GasStation
         {
             if (gameObject.transform.position == target.position)
             {
-                _fuel = false;
-                _stop = false;
-                _poolObject.ReturnToPool();
+                fuel = false;
+                stop = false;
+                poolObject.ReturnToPool();
             }
         }
 
         private IEnumerator Fueling()
         {
-            _fuelingLoading.IsActive = true;
+            fuelingLoading.IsActive = true;
             yield return new WaitForSeconds(config.FuelingTime);
-            _fuelingLoading.IsActive = false;
-            _fuel = true;
-            _moneyIncreaseText.Fuel = true;
-            _stop = false;
-            GameManager.Instance.Money += config.Cost * _ads.AdvMultiplier;
+            fuelingLoading.IsActive = false;
+            fuel = true;
+            moneyIncreaseText.Fuel = true;
+            stop = false;
+            GameManager.Instance.Money += config.Cost * ads.AdvMultiplier;
         }
     }
 }

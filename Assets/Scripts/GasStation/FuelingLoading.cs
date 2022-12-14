@@ -9,7 +9,8 @@ namespace IdleTycoon.GasStation
         [SerializeField] private Image loadingImage;
         [SerializeField] GasStationConfig config;
         [SerializeField] private Canvas canvas;
-        private bool _deactivateTimer;
+
+        private bool deactivateTimer;
 
         public bool IsActive { get; set; }
 

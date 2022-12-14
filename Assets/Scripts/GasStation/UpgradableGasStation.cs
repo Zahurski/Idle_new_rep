@@ -7,16 +7,17 @@ namespace IdleTycoon.GasStation
     {
         [SerializeField] private GasStationButtonController button;
         [SerializeField] private GasStationConfig config;
-        private float _currentCost = 0f;
-        private float _currentFuelingTime;
 
-        public float CurrentCost => _currentCost;
+        private float currentCost = 0f;
+        private float currentFuelingTime;
+
+        public float CurrentCost => currentCost;
 
         private void Start()
         {
-            if (_currentCost < config.StartUpgradeCost)
+            if (currentCost < config.StartUpgradeCost)
             {
-                _currentCost = config.StartUpgradeCost;
+                currentCost = config.StartUpgradeCost;
             }
 
             button.RefreshGasStationInfo();
@@ -25,15 +26,15 @@ namespace IdleTycoon.GasStation
 
         public void UpgradeCost()
         {
-            if (GameManager.Instance.Money >= _currentCost)
+            if (GameManager.Instance.Money >= currentCost)
             {
                 //TODO: связать цену с уровнем 
                 config.Level++;
                 config.Cost++;
-                GameManager.Instance.Money -= _currentCost;
+                GameManager.Instance.Money -= currentCost;
                 button.RefreshGasStationInfo();
-                var newCost = _currentCost + _currentCost * config.CostMultiplier;
-                _currentCost = newCost;
+                var newCost = currentCost + currentCost * config.CostMultiplier;
+                currentCost = newCost;
             }
         }
 

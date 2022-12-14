@@ -8,31 +8,32 @@ namespace IdleTycoon
         [SerializeField] private float movementSpeed;
         [SerializeField] private Vector3 minValue, maxValue;
 
-        private UIManager _uiManager;
+        private UIManager uiManager;
 
-        private Vector3 _newZoom;
-        private Vector3 _newPosition;
-        private Vector3 _dragStartPosition;
-        private Vector3 _dragCurrentPosition;
-        private Vector3 _clampPosition;
-        private bool _moveble;
-        public bool Moveble => _moveble;
+        private Vector3 newZoom;
+        private Vector3 newPosition;
+        private Vector3 dragStartPosition;
+        private Vector3 dragCurrentPosition;
+        private Vector3 clampPosition;
+        private bool movable;
+
+        public bool Movable => movable;
 
         private void Awake()
         {
-            _uiManager = FindObjectOfType<UIManager>();
+            uiManager = FindObjectOfType<UIManager>();
         }
 
         private void Start()
         {
-            _newPosition = transform.position;
+            newPosition = transform.position;
         }
 
         private void Update()
         {
-            if (_uiManager.CurrentScreen != _uiManager.GameScreen) return;
+            if (uiManager.CurrentScreen != uiManager.GameScreen) return;
 
-            _moveble = transform.position != _newPosition;
+            movable = transform.position != newPosition;
             HandleMouseInput();
             HandleMovementInput();
         }
@@ -60,7 +61,7 @@ namespace IdleTycoon
 
                 if (plane.Raycast(ray, out entry))
                 {
-                    _dragStartPosition = ray.GetPoint(entry);
+                    dragStartPosition = ray.GetPoint(entry);
                 }
             }
 
@@ -74,21 +75,21 @@ namespace IdleTycoon
 
                 if (plane.Raycast(ray, out entry))
                 {
-                    _dragCurrentPosition = ray.GetPoint(entry);
+                    dragCurrentPosition = ray.GetPoint(entry);
 
-                    _newPosition = transform.position + _dragStartPosition - _dragCurrentPosition;
+                    newPosition = transform.position + dragStartPosition - dragCurrentPosition;
 
-                    _clampPosition = new Vector3(
-                        Mathf.Clamp(_newPosition.x, minValue.x, maxValue.x),
-                        Mathf.Clamp(_newPosition.y, minValue.y, maxValue.y),
-                        Mathf.Clamp(_newPosition.z, minValue.z, maxValue.z));
+                    clampPosition = new Vector3(
+                        Mathf.Clamp(newPosition.x, minValue.x, maxValue.x),
+                        Mathf.Clamp(newPosition.y, minValue.y, maxValue.y),
+                        Mathf.Clamp(newPosition.z, minValue.z, maxValue.z));
                 }
             }
         }
 
         private void HandleMovementInput()
         {
-            transform.position = Vector3.Lerp(transform.position, _clampPosition, movementSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, clampPosition, movementSpeed * Time.deltaTime);
         }
     }
 }

@@ -4,18 +4,18 @@ namespace IdleTycoon
 {
     public class LookAtCamera : MonoBehaviour
     {
-        private Vector3 _cameraPosition;
-        private Camera _camera;
+        private Vector3 cameraPosition;
+        private Camera localCamera;
 
         private void Awake()
         {
-            _camera = FindObjectOfType<Camera>();
+            localCamera = FindObjectOfType<Camera>();
         }
 
         private void Update()
         {
-            _cameraPosition = _camera.transform.position;
-            var lookDirection = (transform.position - _cameraPosition).normalized;
+            cameraPosition = localCamera.transform.position;
+            var lookDirection = (transform.position - cameraPosition).normalized;
             transform.rotation = Quaternion.LookRotation(lookDirection);
         }
     }

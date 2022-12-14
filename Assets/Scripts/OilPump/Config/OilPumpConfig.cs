@@ -16,8 +16,8 @@ namespace IdleTycoon.OilPump.Config
         [SerializeField] private int levelPumping = 0;
         [SerializeField] private int levelPumpingDelay = 0;
 
-        private float _decreasePumping = 0.05f;
-        private float _decreasePumpingDelay = 0.05f;
+        private readonly float decreasePumping = 0.05f;
+        private readonly float decreasePumpingDelay = 0.05f;
         public float StartUpgradeCost => startUpgradeCost;
         public float CostMultiplier => costMultiplier;
 
@@ -45,9 +45,9 @@ namespace IdleTycoon.OilPump.Config
             set => costPumpingDelay = value;
         }
 
-        public float DecreasePumping => _decreasePumping;
+        public float DecreasePumping => decreasePumping;
 
-        public float DecreasePumpingDelay => _decreasePumpingDelay;
+        public float DecreasePumpingDelay => decreasePumpingDelay;
 
         public float PumpingDelay
         {

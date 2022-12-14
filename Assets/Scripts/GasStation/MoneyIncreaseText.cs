@@ -9,15 +9,15 @@ namespace IdleTycoon.GasStation
     {
         [SerializeField] private TextMeshProUGUI text;
         [SerializeField] private GasStationConfig config;
-        private readonly Vector3 _targetPositionText = new(0, 4, 0);
+        private readonly Vector3 targetPositionText = new Vector3(0, 4, 0);
 
-        private AdsController _ads;
+        private AdsController ads;
 
         public bool Fuel { get; set; }
 
         private void Awake()
         {
-            _ads = FindObjectOfType<AdsController>();
+            ads = FindObjectOfType<AdsController>();
         }
 
         private void Update()
@@ -25,7 +25,7 @@ namespace IdleTycoon.GasStation
             if (Fuel)
             {
                 ShowFuelText();
-                text.text = "+" + FormatNums.FormatNum(config.Cost * _ads.AdvMultiplier);
+                text.text = "+" + FormatNums.FormatNum(config.Cost * ads.AdvMultiplier);
             }
             else
             {
@@ -36,8 +36,8 @@ namespace IdleTycoon.GasStation
 
         private void ShowFuelText()
         {
-            if (text.transform.position == _targetPositionText) Fuel = false;
-            text.transform.position = Vector3.MoveTowards(text.transform.position, _targetPositionText, 2 * Time.deltaTime);
+            if (text.transform.position == targetPositionText) Fuel = false;
+            text.transform.position = Vector3.MoveTowards(text.transform.position, targetPositionText, 2 * Time.deltaTime);
         }
     }
 }

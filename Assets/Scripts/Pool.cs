@@ -1,25 +1,34 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace IdleTycoon
 {
     public class Pool : MonoBehaviour
     {
-        [SerializeField] private PoolObject _prefab;
+        //todo d.gankov: remove all FormerlySerializedAs
+        [FormerlySerializedAs("_prefab")]
+        [SerializeField] private PoolObject prefab;
 
-        [Space(10)] [SerializeField] private Transform _container;
-        [SerializeField] private int _minCapacity;
-        [SerializeField] private int _maxCapacity;
-        [Space(10)] [SerializeField] private bool _autoExpand;
+        [FormerlySerializedAs("_container")]
+        [Space(10)]
+        [SerializeField] private Transform container;
+        [FormerlySerializedAs("_minCapacity")]
+        [SerializeField] private int minCapacity;
+        [FormerlySerializedAs("_maxCapacity")]
+        [SerializeField] private int maxCapacity;
+        [FormerlySerializedAs("_autoExpand")]
+        [Space(10)]
+        [SerializeField] private bool autoExpand;
 
-        private List<PoolObject> _pool;
+        private List<PoolObject> pool;
 
         private void OnValidate()
         {
-            if (_autoExpand)
+            if (autoExpand)
             {
-                _maxCapacity = int.MaxValue;
+                maxCapacity = int.MaxValue;
             }
         }
 
@@ -30,9 +39,9 @@ namespace IdleTycoon
 
         private void CreatePool()
         {
-            _pool = new List<PoolObject>(_minCapacity);
+            pool = new List<PoolObject>(minCapacity);
 
-            for (int i = 0; i < _minCapacity; i++)
+            for (int i = 0; i < minCapacity; i++)
             {
                 CreateElement();
             }
@@ -40,17 +49,17 @@ namespace IdleTycoon
 
         private PoolObject CreateElement(bool isActiveByDefault = false)
         {
-            var createdObject = Instantiate(_prefab, _container);
+            var createdObject = Instantiate(prefab, container);
             createdObject.gameObject.SetActive(isActiveByDefault);
 
-            _pool.Add(createdObject);
+            pool.Add(createdObject);
 
             return createdObject;
         }
 
         public bool TryGetElement(out PoolObject element)
         {
-            foreach (var item in _pool)
+            foreach (var item in pool)
             {
                 if (!item.gameObject.activeInHierarchy)
                 {
@@ -85,12 +94,12 @@ namespace IdleTycoon
                 return element;
             }
 
-            if (_autoExpand)
+            if (autoExpand)
             {
                 return CreateElement(true);
             }
 
-            if (_pool.Count < _maxCapacity)
+            if (pool.Count < maxCapacity)
             {
                 return CreateElement(true);
             }

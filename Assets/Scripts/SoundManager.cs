@@ -5,17 +5,19 @@ namespace IdleTycoon
 {
     public class SoundManager : MonoBehaviour
     {
+        private const string MUSIC_VOLUME = "musicVolume";
+
         [SerializeField] private Slider volumeSlider;
         [SerializeField] private AudioSource audioSource;
         [SerializeField] private AudioClip audioClipClose;
         [SerializeField] private AudioClip audioClipMoney;
 
-        private const string MUSIC_VOLUME = "musicVolume";
-        private UIManager _uiManager;
+
+        private UIManager uiManager;
 
         private void Awake()
         {
-            _uiManager = FindObjectOfType<UIManager>();
+            uiManager = FindObjectOfType<UIManager>();
         }
 
         private void Start()
@@ -29,7 +31,7 @@ namespace IdleTycoon
                 Load();
             }
 
-            _uiManager.CloseMenu += CloseSound;
+            uiManager.CloseMenu += CloseSound;
             GameManager.Instance.IncreaseMoney += IncreaseMoney;
         }
 

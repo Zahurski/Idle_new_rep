@@ -10,21 +10,22 @@ namespace IdleTycoon.OilPump
     {
         [SerializeField] private TextMeshProUGUI text;
         [SerializeField] private OilPumpConfig config;
-        private Vector3 _targetPositionText;
-        private OilPumpComponent _oilPump;
-        private AdsController _ads;
+
+        private Vector3 targetPositionText;
+        private OilPumpComponent oilPump;
+        private AdsController ads;
 
         public bool Pump { get; set; }
 
         private void Awake()
         {
-            _oilPump = FindObjectOfType<OilPumpComponent>();
-            _ads = FindObjectOfType<AdsController>();
+            oilPump = FindObjectOfType<OilPumpComponent>();
+            ads = FindObjectOfType<AdsController>();
         }
 
         private void Start()
         {
-            _targetPositionText = new Vector3(_oilPump.transform.position.x, 4, _oilPump.transform.position.z);
+            targetPositionText = new Vector3(oilPump.transform.position.x, 4, oilPump.transform.position.z);
         }
 
         private void Update()
@@ -32,19 +33,20 @@ namespace IdleTycoon.OilPump
             if (Pump)
             {
                 ShowFuelText();
-                text.text = "+" + FormatNums.FormatNum(config.Cost * _ads.AdvMultiplier);
+                text.text = "+" + FormatNums.FormatNum(config.Cost * ads.AdvMultiplier);
             }
             else
             {
                 text.text = " ";
-                text.transform.position = new Vector3(_oilPump.transform.position.x, 3, _oilPump.transform.position.z);
+                text.transform.position = new Vector3(oilPump.transform.position.x, 3, oilPump.transform.position.z);
             }
         }
 
         private void ShowFuelText()
         {
-            if (text.transform.position == _targetPositionText) Pump = false;
-            text.transform.position = Vector3.MoveTowards(text.transform.position, _targetPositionText, 2 * Time.deltaTime);
+            if (text.transform.position == targetPositionText) Pump = false;
+            text.transform.position =
+                Vector3.MoveTowards(text.transform.position, targetPositionText, 2 * Time.deltaTime);
         }
     }
 }

@@ -15,66 +15,67 @@ namespace IdleTycoon
         [SerializeField] private GasStationConfig gasStation;
         [SerializeField] private OilPumpConfig oilPump;
         [SerializeField] private Button button;
-        private RewardedAdsButton _ads;
-        private InterstitialAdExample _interstitial;
-        private UIManager _uiManager;
 
-        private int _decreaseDiamond = 20;
-        private float _moneySum;
-        private float _totalMoney;
-        private bool _active = false;
+        private RewardedAdsButton ads;
+        private InterstitialAdExample interstitial;
+        private UIManager uiManager;
+
+        private int decreaseDiamond = 20;
+        private float moneySum;
+        private float totalMoney;
+        private bool active = false;
 
         private void Awake()
         {
-            _ads = FindObjectOfType<RewardedAdsButton>();
-            _interstitial = FindObjectOfType<InterstitialAdExample>();
-            _uiManager = FindObjectOfType<UIManager>();
+            ads = FindObjectOfType<RewardedAdsButton>();
+            interstitial = FindObjectOfType<InterstitialAdExample>();
+            uiManager = FindObjectOfType<UIManager>();
         }
 
         private void Start()
         {
             RefreshDiamondButton();
-            _moneySum = gasStation.Cost + oilPump.Cost;
+            moneySum = gasStation.Cost + oilPump.Cost;
             CalculateOfflineIncome();
-            textMoneyOffline.text = "Пока вас не было\nвы заработали: " + FormatNums.FormatNum(_totalMoney);
-            _ads.RewardedAdsShowComplete += GetBounty;
+            textMoneyOffline.text = "Пока вас не было\nвы заработали: " + FormatNums.FormatNum(totalMoney);
+            ads.RewardedAdsShowComplete += GetBounty;
         }
 
         private void RefreshDiamondButton()
         {
-            button.interactable = GameManager.Instance.Diamond > _decreaseDiamond;
+            button.interactable = GameManager.Instance.Diamond > decreaseDiamond;
         }
 
         public void Getx3()
         {
-            GameManager.Instance.Diamond -= _decreaseDiamond;
-            GameManager.Instance.Money += (float) Math.Round(_totalMoney * 3, 0);
-            _uiManager.Close();
-            _interstitial.ShowAd();
+            GameManager.Instance.Diamond -= decreaseDiamond;
+            GameManager.Instance.Money += (float)Math.Round(totalMoney * 3, 0);
+            uiManager.Close();
+            interstitial.ShowAd();
         }
 
         public void Getx2()
         {
-            _active = true;
-            _ads.ShowAd();
+            active = true;
+            ads.ShowAd();
         }
 
         public void Getx1()
         {
-            GameManager.Instance.Money += (float) Math.Round(_totalMoney, 0);
-            print("Добавлено: " + (float) Math.Round(_totalMoney, 0));
-            _ads.RewardedAdsShowComplete -= GetBounty;
-            _uiManager.Close();
+            GameManager.Instance.Money += (float)Math.Round(totalMoney, 0);
+            print("Добавлено: " + (float)Math.Round(totalMoney, 0));
+            ads.RewardedAdsShowComplete -= GetBounty;
+            uiManager.Close();
         }
 
         private void GetBounty()
         {
-            if (!_active) return;
-            GameManager.Instance.Money += (float) Math.Round(_totalMoney * 2, 0);
-            print("Добавлено: " + (float) Math.Round(_totalMoney, 0));
-            _ads.RewardedAdsShowComplete -= GetBounty;
-            _active = false;
-            _uiManager.Close();
+            if (!active) return;
+            GameManager.Instance.Money += (float)Math.Round(totalMoney * 2, 0);
+            print("Добавлено: " + (float)Math.Round(totalMoney, 0));
+            ads.RewardedAdsShowComplete -= GetBounty;
+            active = false;
+            uiManager.Close();
         }
 
         private void CalculateOfflineIncome()
@@ -89,8 +90,8 @@ namespace IdleTycoon
             if (secondSpan > timeSpanRestriction)
                 secondSpan = timeSpanRestriction;
 
-            _totalMoney = (float) secondSpan * _moneySum / 10;
-            print("Вас небыло в игре: " + secondSpan + "Вы заработали: " + _totalMoney);
+            totalMoney = (float)secondSpan * moneySum / 10;
+            print("Вас небыло в игре: " + secondSpan + "Вы заработали: " + totalMoney);
         }
     }
 }

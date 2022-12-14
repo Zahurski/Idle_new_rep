@@ -21,11 +21,11 @@ namespace IdleTycoon.GasStation
         [SerializeField] public Image fuelingProgressBar;
         [SerializeField] public Image spawnProgressBar;
 
-        private UpgradableGasStation _upgradableGasStation;
+        private UpgradableGasStation upgradableGasStation;
 
         private void Awake()
         {
-            _upgradableGasStation = FindObjectOfType<UpgradableGasStation>();
+            upgradableGasStation = FindObjectOfType<UpgradableGasStation>();
         }
 
         private void Start()
@@ -39,7 +39,7 @@ namespace IdleTycoon.GasStation
             fuelingTimeText.text = "Время заправки: " + Math.Round(config.FuelingTime, 2).ToString(CultureInfo.InvariantCulture) + "c";
             carsSpawnDelay.text = "Машин в минуту: " + Math.Round(60f / config.SpawnDelay, 1).ToString(CultureInfo.InvariantCulture);
             profitText.text = FormatNums.FormatNum(config.Cost);
-            upgradeCost.text = FormatNums.FormatNum(_upgradableGasStation.CurrentCost);
+            upgradeCost.text = FormatNums.FormatNum(upgradableGasStation.CurrentCost);
             costFueling.text = FormatNums.FormatNum(config.CostFueling);
             costSpawnDelay.text = FormatNums.FormatNum(config.CostSpawnDelay);
         }

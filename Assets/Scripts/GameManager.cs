@@ -9,19 +9,21 @@ namespace IdleTycoon
         private const string LAST_PLAYED_TIME = "LastPlayedTime";
         private const string MONEY = "Money";
         private const string DIAMOND = "Diamond";
-        public static GameManager Instance;
-
-        private UIManager _uiManager;
-        //private FirebaseSave _firebaseSave;
-
-        private float _money = 0;
-        private int _diamond = 0;
-        public Action<float> OnMoneyValueChange = null;
-        public Action<float> OnDiamondValueChange = null;
-        public Action IncreaseMoney;
-        public Action LoadData;
 
         public static string LastPlayedTime => LAST_PLAYED_TIME;
+        public static GameManager Instance { get; set; }
+
+        private UIManager uiManager;
+        //private FirebaseSave _firebaseSave;
+
+        private float money = 0;
+        private int diamond = 0;
+
+        public Action<float> OnMoneyValueChange { get; set; } = null;
+        public Action<float> OnDiamondValueChange { get; set; } = null;
+        public Action IncreaseMoney { get; set; }
+        public Action LoadData { get; set; }
+
 
         private void Awake()
         {
@@ -30,7 +32,7 @@ namespace IdleTycoon
                 Instance = this;
             }
 
-            _uiManager = FindObjectOfType<UIManager>();
+            uiManager = FindObjectOfType<UIManager>();
             //_firebaseSave = FindObjectOfType<FirebaseSave>();
         }
 
@@ -47,35 +49,35 @@ namespace IdleTycoon
 
         public float Money
         {
-            get => _money;
+            get => money;
 
             set
             {
                 if (value >= 0)
                 {
                     var currentMoney = value;
-                    if (currentMoney - _money >= 0)
+                    if (currentMoney - money >= 0)
                     {
                         IncreaseMoney?.Invoke();
                     }
 
-                    _money = value;
-                    _money = (float) Math.Round(_money, 0);
-                    OnMoneyValueChange?.Invoke(_money);
+                    money = value;
+                    money = (float)Math.Round(money, 0);
+                    OnMoneyValueChange?.Invoke(money);
                 }
             }
         }
 
         public int Diamond
         {
-            get => _diamond;
+            get => diamond;
 
             set
             {
                 if (value >= 0)
                 {
-                    _diamond = value;
-                    OnDiamondValueChange?.Invoke(_diamond);
+                    diamond = value;
+                    OnDiamondValueChange?.Invoke(diamond);
                 }
             }
         }
@@ -83,8 +85,8 @@ namespace IdleTycoon
         private void OnApplicationQuit()
         {
             //_firebaseSave.SaveData();
-            PlayerPrefs.SetFloat(MONEY, _money);
-            PlayerPrefs.SetInt(DIAMOND, _diamond);
+            PlayerPrefs.SetFloat(MONEY, money);
+            PlayerPrefs.SetInt(DIAMOND, diamond);
             PlayerPrefs.SetString(LAST_PLAYED_TIME, DateTime.UtcNow.ToString(CultureInfo.CurrentCulture));
         }
 
@@ -93,11 +95,11 @@ namespace IdleTycoon
             if (!PlayerPrefs.HasKey(MONEY))
             {
                 PlayerPrefs.SetFloat(MONEY, 0);
-                _uiManager.ShowGameScreen();
+                uiManager.ShowGameScreen();
             }
             else
             {
-                _uiManager.Initialize();
+                uiManager.Initialize();
                 //_money = PlayerPrefs.GetFloat(MONEY);
             }
 
@@ -107,7 +109,7 @@ namespace IdleTycoon
             }
             else
             {
-                _diamond = PlayerPrefs.GetInt(DIAMOND);
+                diamond = PlayerPrefs.GetInt(DIAMOND);
             }
 
             LoadData?.Invoke();

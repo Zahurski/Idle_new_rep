@@ -17,12 +17,13 @@ namespace IdleTycoon.GasStation.Config
         [SerializeField] private int levelFueling = 0;
         [SerializeField] private int levelSpawnDelay = 0;
 
-        private float _decreaseFueling = 0.05f;
-        private float _decreaseSpawnDelay = 0.05f;
+        private readonly float decreaseFueling = 0.05f;
+        private readonly float decreaseSpawnDelay = 0.05f;
         public float StartUpgradeCost => startUpgradeCost;
         public float CostMultiplier => costMultiplier;
         public float CarSpeed => carSpeed;
-        public float DecreaseFueling => _decreaseFueling;
+        public float DecreaseFueling => decreaseFueling;
+        public float DecreaseSpawnDelay => decreaseSpawnDelay;
 
         public int Level
         {
@@ -72,6 +73,5 @@ namespace IdleTycoon.GasStation.Config
             set => costSpawnDelay = value;
         }
 
-        public float DecreaseSpawnDelay => _decreaseSpawnDelay;
     }
 }

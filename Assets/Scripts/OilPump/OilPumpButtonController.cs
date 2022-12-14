@@ -19,14 +19,17 @@ namespace IdleTycoon.OilPump
         [SerializeField] private TextMeshProUGUI costFueling = null;
         [SerializeField] private TextMeshProUGUI costSpawnDelay = null;
         [SerializeField] private OilPumpConfig config;
-        [SerializeField] public Image fuelingProgressBar;
-        [SerializeField] public Image spawnProgressBar;
+        [SerializeField] private Image fuelingProgressBar;
+        [SerializeField] private Image spawnProgressBar;
 
-        private UpgradableOilPump _upgradableOilPump;
+        private UpgradableOilPump upgradableOilPump;
+
+        public Image FuelingProgressBar => fuelingProgressBar;
+        public Image SpawnProgressBar => spawnProgressBar;
 
         private void Awake()
         {
-            _upgradableOilPump = FindObjectOfType<UpgradableOilPump>();
+            upgradableOilPump = FindObjectOfType<UpgradableOilPump>();
         }
 
         private void Start()
@@ -38,10 +41,12 @@ namespace IdleTycoon.OilPump
         public void RefreshOilPumpInfo()
         {
             levelText.text = "Уровень: " + config.Level;
-            pumpingTimeText.text = "Время добычи: " + Math.Round(config.PumpingTime, 2).ToString(CultureInfo.InvariantCulture) + "c";
-            pumpingDelay.text = "добыча в минуту: " + Math.Round(60f / config.PumpingTime, 1).ToString(CultureInfo.InvariantCulture);
+            pumpingTimeText.text = "Время добычи: " +
+                                   Math.Round(config.PumpingTime, 2).ToString(CultureInfo.InvariantCulture) + "c";
+            pumpingDelay.text = "добыча в минуту: " +
+                                Math.Round(60f / config.PumpingTime, 1).ToString(CultureInfo.InvariantCulture);
             profitText.text = FormatNums.FormatNum(config.Cost);
-            upgradeCost.text = FormatNums.FormatNum(_upgradableOilPump.CurrentCost);
+            upgradeCost.text = FormatNums.FormatNum(upgradableOilPump.CurrentCost);
             costFueling.text = FormatNums.FormatNum(config.CostPumping);
             costSpawnDelay.text = FormatNums.FormatNum(config.CostPumpingDelay);
         }

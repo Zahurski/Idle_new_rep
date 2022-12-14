@@ -32,7 +32,6 @@ namespace IdleTycoon.Ads
 
         public void AdsOnDiamond()
         {
-            //test
             GameManager.Instance.Diamond += 10;
         }
 

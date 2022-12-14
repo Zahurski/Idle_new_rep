@@ -9,24 +9,25 @@ namespace IdleTycoon.GasStation
         [SerializeField] private GameObject carPrefab;
         [SerializeField] private Transform spawn;
         [SerializeField] private GasStationConfig config;
-        private bool _isAvailable = true;
-        private bool _spawnDelay = true;
 
-        private Pool _pool;
+        private bool isAvailable = true;
+        private bool spawnDelay = true;
+
+        private Pool pool;
 
         private void Start()
         {
-            _pool = FindObjectOfType<Pool>();
+            pool = FindObjectOfType<Pool>();
             StartCoroutine(SpawnDelay());
         }
 
         private void Update()
         {
-            if (!_isAvailable) return;
-            if (!_spawnDelay) return;
-            _pool.GetFreeElement(spawn.position, Quaternion.identity);
-            _isAvailable = false;
-            _spawnDelay = false;
+            if (!isAvailable) return;
+            if (!spawnDelay) return;
+            pool.GetFreeElement(spawn.position, Quaternion.identity);
+            isAvailable = false;
+            spawnDelay = false;
             StartCoroutine(SpawnDelay());
         }
 
@@ -34,7 +35,7 @@ namespace IdleTycoon.GasStation
         {
             if (other.gameObject.CompareTag("Car"))
             {
-                _isAvailable = false;
+                isAvailable = false;
             }
         }
 
@@ -42,14 +43,14 @@ namespace IdleTycoon.GasStation
         {
             if (other.gameObject.CompareTag("Car"))
             {
-                _isAvailable = true;
+                isAvailable = true;
             }
         }
 
         private IEnumerator SpawnDelay()
         {
             yield return new WaitForSeconds(config.SpawnDelay);
-            _spawnDelay = true;
+            spawnDelay = true;
         }
     }
 }
