@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace IdleTycoon.GasStation
 {
-    public class CarMoveble : MonoBehaviour
+    public class CarMovable : MonoBehaviour
     {
         private const string CarTag = "Car";
         private const string GasStationTag = "GasStation";
