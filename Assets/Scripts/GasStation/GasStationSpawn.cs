@@ -13,18 +13,18 @@ namespace IdleTycoon.GasStation
         private bool isAvailable = true;
         private bool spawnDelay = true;
 
-        private Pool pool;
         private GasStationConfig config;
+        private CarMovablePool carMovablePool;
 
         [Inject]
-        private void Init(GasStationConfig config)
+        private void Init(GasStationConfig config, CarMovablePool carMovablePool)
         {
+            this.carMovablePool = carMovablePool;
             this.config = config;
         }
 
         private void Start()
         {
-            pool = FindObjectOfType<Pool>();
             StartCoroutine(SpawnDelay());
         }
 
@@ -32,10 +32,19 @@ namespace IdleTycoon.GasStation
         {
             if (!isAvailable) return;
             if (!spawnDelay) return;
-            pool.GetFreeElement(spawn.position, Quaternion.identity);
+
+            CarMovable carMovable = carMovablePool.Spawn(spawn.position, Quaternion.identity);
+            carMovable.MovedEnd += CarMovableOnMovedEnd;
+
             isAvailable = false;
             spawnDelay = false;
             StartCoroutine(SpawnDelay());
+        }
+
+        private void CarMovableOnMovedEnd(CarMovable carMovable)
+        {
+            carMovable.MovedEnd -= CarMovableOnMovedEnd;
+            carMovablePool.Despawn(carMovable);
         }
 
         private void OnTriggerEnter(Collider other)

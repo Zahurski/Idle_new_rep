@@ -720,7 +720,6 @@ GameObject:
   - component: {fileID: 6051811675306938545}
   - component: {fileID: 1384309405719226426}
   - component: {fileID: 349983979483692985}
-  - component: {fileID: 4936104599865272183}
   - component: {fileID: 5337573985992081795}
   m_Layer: 0
   m_Name: Car
@@ -766,7 +765,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  config: {fileID: 11400000, guid: 9d2f267ffaac6dc40964417d99273939, type: 2}
 --- !u!54 &349983979483692985
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -783,18 +781,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 72
   m_CollisionDetection: 0
---- !u!114 &4936104599865272183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7168790159165719766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c44cb73f39033d44ba8fc4f003e131ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &5337573985992081795
 BoxCollider:
   m_ObjectHideFlags: 0

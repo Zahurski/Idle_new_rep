@@ -2,7 +2,9 @@ using System.Collections;
 using IdleTycoon.Ads;
 using IdleTycoon.Components;
 using IdleTycoon.Configs;
+using System;
 using UnityEngine;
+using Zenject;
 
 namespace IdleTycoon.GasStation
 {
@@ -12,22 +14,27 @@ namespace IdleTycoon.GasStation
         private const string GAS_STATION_TAG = "GasStation";
 
         [SerializeField] private Transform target;
-        //todo d.gankov прокидывать через фабрику
-        [SerializeField] private GasStationConfig config;
 
         private float currentSpeed;
         private bool stop;
         private bool fuel;
 
-        private PoolObject poolObject;
         private FuelingLoading fuelingLoading;
         private MoneyIncreaseText moneyIncreaseText;
         private AdsController ads;
+        private GasStationConfig config;
+
+        public event Action<CarMovable> MovedEnd;
+
+        [Inject]
+        private void Init(GasStationConfig config)
+        {
+            this.config = config;
+        }
 
         private void Awake()
         {
             ads = FindObjectOfType<AdsController>();
-            poolObject = GetComponent<PoolObject>();
             fuelingLoading = FindObjectOfType<FuelingLoading>();
             moneyIncreaseText = FindObjectOfType<MoneyIncreaseText>();
             target = FindObjectOfType<TargetComponent>().transform;
@@ -35,13 +42,20 @@ namespace IdleTycoon.GasStation
 
         private void Update()
         {
-            Destroy();
             currentSpeed = !stop ? config.CarSpeed : 0f;
 
-            transform.position =
-                Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.deltaTime);
-        }
+            transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.deltaTime);
 
+            if (IsEndMove())
+            {
+                MovedEnd?.Invoke(this);
+            }
+
+            bool IsEndMove()
+            {
+                return Vector3.Distance(transform.position, target.position) <= 0.1f;
+            }
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -70,14 +84,11 @@ namespace IdleTycoon.GasStation
             }
         }
 
-        private void Destroy()
+        public void Reset(Vector3 position, Quaternion rotation)
         {
-            if (gameObject.transform.position == target.position)
-            {
-                fuel = false;
-                stop = false;
-                poolObject.ReturnToPool();
-            }
+            fuel = false;
+            stop = false;
+            transform.SetPositionAndRotation(position, rotation);
         }
 
         private IEnumerator Fueling()
