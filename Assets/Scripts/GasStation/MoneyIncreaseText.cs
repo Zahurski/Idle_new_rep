@@ -33,7 +33,7 @@ namespace IdleTycoon.GasStation
             if (Fuel)
             {
                 ShowFuelText();
-                text.text = "+" + FormatNums.FormatNum(config.Cost * ads.AdvMultiplier);
+                text.text = "+" + FormatNums.FormatNum(config.Cost * ads.AdditionalMultiplier);
             }
             else
             {

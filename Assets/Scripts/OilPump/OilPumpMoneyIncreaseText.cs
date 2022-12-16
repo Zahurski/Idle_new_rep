@@ -41,7 +41,7 @@ namespace IdleTycoon.OilPump
             if (Pump)
             {
                 ShowFuelText();
-                text.text = "+" + FormatNums.FormatNum(config.Cost * ads.AdvMultiplier);
+                text.text = "+" + FormatNums.FormatNum(config.Cost * ads.AdditionalMultiplier);
             }
             else
             {

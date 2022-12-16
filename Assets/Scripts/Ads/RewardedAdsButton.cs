@@ -10,14 +10,14 @@ namespace IdleTycoon.Ads
         private const string IOS_AD_UNIT_ID = "Rewarded_iOS";
 
         // This will remain null for unsupported platforms
-        private string _adUnitId = null;
+        private string adUnitId = null;
 
         public event Action RewardedAdsShowComplete;
 
         private void Awake()
         {
             // Get the Ad Unit ID for the current platform:
-            _adUnitId = (Application.platform == RuntimePlatform.IPhonePlayer)
+            adUnitId = (Application.platform == RuntimePlatform.IPhonePlayer)
                 ? IOS_AD_UNIT_ID
                 : ANDROID_AD_UNIT_ID;
         }
@@ -26,8 +26,8 @@ namespace IdleTycoon.Ads
         public void LoadAd()
         {
             // IMPORTANT! Only load content AFTER initialization (in this example, initialization is handled in a different script).
-            Debug.Log("Loading Ad: " + _adUnitId);
-            Advertisement.Load(_adUnitId, this);
+            Debug.Log("Loading Ad: " + adUnitId);
+            Advertisement.Load(adUnitId, this);
         }
 
         // If the ad successfully loads, add a listener to the button and enable it:
@@ -40,19 +40,19 @@ namespace IdleTycoon.Ads
         public void ShowAd()
         {
             // Then show the ad:
-            Advertisement.Show(_adUnitId, this);
+            Advertisement.Show(adUnitId, this);
         }
 
         // Implement the Show Listener's OnUnityAdsShowComplete callback method to determine if the user gets a reward:
         public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState)
         {
-            if (adUnitId.Equals(_adUnitId) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
+            if (adUnitId.Equals(this.adUnitId) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
             {
                 Debug.Log("Unity Ads Rewarded Ad Completed");
                 // Grant a reward.
                 RewardedAdsShowComplete?.Invoke();
                 // Load another ad:
-                Advertisement.Load(_adUnitId, this);
+                Advertisement.Load(this.adUnitId, this);
             }
         }
 

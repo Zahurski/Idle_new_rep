@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Advertisements;
+using UnityEngine.Serialization;
 
 namespace IdleTycoon.Ads
 {
@@ -8,19 +9,20 @@ namespace IdleTycoon.Ads
         private const string ANDROID_AD_UNIT_ID = "Banner_Android";
         private const string IOS_AD_UNIT_ID = "Banner_iOS";
 
-        [SerializeField] private BannerPosition _bannerPosition = BannerPosition.BOTTOM_CENTER;
+        [FormerlySerializedAs("_bannerPosition")] [SerializeField]
+        private BannerPosition bannerPosition = BannerPosition.BOTTOM_CENTER;
 
-        private string _adUnitId = null; // This will remain null for unsupported platforms.
+        private string adUnitId = null; // This will remain null for unsupported platforms.
 
         private void Awake()
         {
             // Get the Ad Unit ID for the current platform:
-            _adUnitId = (Application.platform == RuntimePlatform.IPhonePlayer)
+            adUnitId = (Application.platform == RuntimePlatform.IPhonePlayer)
                 ? IOS_AD_UNIT_ID
                 : ANDROID_AD_UNIT_ID;
 
             // Set the banner position:
-            Advertisement.Banner.SetPosition(_bannerPosition);
+            Advertisement.Banner.SetPosition(bannerPosition);
         }
 
         // Implement a method to call when the Load Banner button is clicked:
@@ -34,7 +36,7 @@ namespace IdleTycoon.Ads
             };
 
             // Load the Ad Unit with banner content:
-            Advertisement.Banner.Load(_adUnitId, options);
+            Advertisement.Banner.Load(adUnitId, options);
         }
 
         // Implement code to execute when the loadCallback event triggers:
@@ -62,7 +64,7 @@ namespace IdleTycoon.Ads
             };
 
             // Show the loaded Banner Ad Unit:
-            Advertisement.Banner.Show(_adUnitId, options);
+            Advertisement.Banner.Show(adUnitId, options);
         }
 
         // Implement a method to call when the Hide Banner button is clicked:

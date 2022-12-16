@@ -99,7 +99,7 @@ namespace IdleTycoon.GasStation
             fuel = true;
             moneyIncreaseText.Fuel = true;
             stop = false;
-            GameManager.Instance.Money += config.Cost * ads.AdvMultiplier;
+            GameManager.Instance.Money += config.Cost * ads.AdditionalMultiplier;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace IdleTycoon.OilPump
                 yield return new WaitForSeconds(config.PumpingTime);
                 oilPumpLoading.IsActive = false;
                 oilPumpMoneyIncreaseText.Pump = true;
-                GameManager.Instance.Money += config.Cost * ads.AdvMultiplier;
+                GameManager.Instance.Money += config.Cost * ads.AdditionalMultiplier;
                 yield return new WaitForSeconds(0.01f);
             }
         }

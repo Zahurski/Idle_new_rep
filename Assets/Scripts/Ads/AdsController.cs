@@ -9,25 +9,25 @@ namespace IdleTycoon.Ads
         [SerializeField] private int adsMultiplier = 1;
         [SerializeField] private Button button;
 
-        private RewardedAdsButton _ads;
-        private bool _active = false;
+        private RewardedAdsButton ads;
+        private bool active = false;
 
-        public int AdvMultiplier => adsMultiplier;
+        public int AdditionalMultiplier => adsMultiplier;
 
         private void Awake()
         {
-            _ads = FindObjectOfType<RewardedAdsButton>();
+            ads = FindObjectOfType<RewardedAdsButton>();
         }
 
         private void Start()
         {
-            _ads.RewardedAdsShowComplete += StartCoroutineRewarded;
+            ads.RewardedAdsShowComplete += StartCoroutineRewarded;
         }
 
         public void AdsOn()
         {
-            _active = true;
-            _ads.ShowAd();
+            active = true;
+            ads.ShowAd();
         }
 
         public void AdsOnDiamond()
@@ -37,7 +37,7 @@ namespace IdleTycoon.Ads
 
         private void StartCoroutineRewarded()
         {
-            if (!_active) return;
+            if (!active) return;
             StartCoroutine(AdsActiveTime());
         }
 
@@ -48,7 +48,7 @@ namespace IdleTycoon.Ads
             yield return new WaitForSeconds(60);
             adsMultiplier = 1;
             button.interactable = true;
-            _active = false;
+            active = false;
         }
     }
 }

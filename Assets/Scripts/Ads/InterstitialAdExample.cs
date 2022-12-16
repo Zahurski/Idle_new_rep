@@ -8,12 +8,12 @@ namespace IdleTycoon.Ads
         private const string ANDROID_AD_UNIT_ID = "Interstitial_Android";
         private const string IOS_AD_UNIT_ID = "Interstitial_iOS";
         
-        private string _adUnitId;
+        private string adUnitId;
 
         private void Awake()
         {
             // Get the Ad Unit ID for the current platform:
-            _adUnitId = (Application.platform == RuntimePlatform.IPhonePlayer)
+            adUnitId = (Application.platform == RuntimePlatform.IPhonePlayer)
                 ? IOS_AD_UNIT_ID
                 : ANDROID_AD_UNIT_ID;
         }
@@ -22,16 +22,16 @@ namespace IdleTycoon.Ads
         public void LoadAd()
         {
             // IMPORTANT! Only load content AFTER initialization (in this example, initialization is handled in a different script).
-            Debug.Log("Loading Ad: " + _adUnitId);
-            Advertisement.Load(_adUnitId, this);
+            Debug.Log("Loading Ad: " + adUnitId);
+            Advertisement.Load(adUnitId, this);
         }
 
         // Show the loaded content in the Ad Unit:
         public void ShowAd()
         {
             // Note that if the ad content wasn't previously loaded, this method will fail
-            Debug.Log("Showing Ad: " + _adUnitId);
-            Advertisement.Show(_adUnitId, this);
+            Debug.Log("Showing Ad: " + adUnitId);
+            Advertisement.Show(adUnitId, this);
         }
 
         // Implement Load Listener and Show Listener interface methods: 
