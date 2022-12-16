@@ -1,6 +1,7 @@
 using IdleTycoon.Ads;
 using IdleTycoon.Components;
 using IdleTycoon.Configs;
+using IdleTycoon.Meta;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -16,12 +17,14 @@ namespace IdleTycoon.OilPump
         private AdsController ads;
 
         private OilPumpConfig config;
+        private IMetaValues metaValues;
 
         public bool Pump { get; set; }
 
         [Inject]
-        private void Init(OilPumpConfig config)
+        private void Init(OilPumpConfig config, IMetaValues metaValues)
         {
+            this.metaValues = metaValues;
             this.config = config;
         }
 
@@ -41,7 +44,7 @@ namespace IdleTycoon.OilPump
             if (Pump)
             {
                 ShowFuelText();
-                text.text = "+" + FormatNums.FormatNum(config.Cost * ads.AdditionalMultiplier);
+                text.text = "+" + FormatNums.FormatNum(config.Cost * metaValues.SoftMoneyCoefficient);
             }
             else
             {

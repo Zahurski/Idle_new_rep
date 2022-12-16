@@ -8,11 +8,13 @@ namespace IdleTycoon.Configs
     {
         [SerializeField] private GasStationConfig gasStationConfig;
         [SerializeField] private OilPumpConfig oilPumpConfig;
+        [SerializeField] private EconomicConfig economicConfig;
 
         public override void InstallBindings()
         {
             Container.BindInstance(gasStationConfig);
             Container.BindInstance(oilPumpConfig);
+            Container.BindInstance(economicConfig);
         }
     }
 }

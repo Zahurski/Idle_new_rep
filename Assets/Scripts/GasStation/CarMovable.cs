@@ -1,7 +1,7 @@
 using System.Collections;
-using IdleTycoon.Ads;
 using IdleTycoon.Components;
 using IdleTycoon.Configs;
+using IdleTycoon.Meta;
 using System;
 using UnityEngine;
 using Zenject;
@@ -21,20 +21,20 @@ namespace IdleTycoon.GasStation
 
         private FuelingLoading fuelingLoading;
         private MoneyIncreaseText moneyIncreaseText;
-        private AdsController ads;
         private GasStationConfig config;
+        private IMetaValues metaValues;
 
         public event Action<CarMovable> MovedEnd;
 
         [Inject]
-        private void Init(GasStationConfig config)
+        private void Init(GasStationConfig config, IMetaValues metaValues)
         {
+            this.metaValues = metaValues;
             this.config = config;
         }
 
         private void Awake()
         {
-            ads = FindObjectOfType<AdsController>();
             fuelingLoading = FindObjectOfType<FuelingLoading>();
             moneyIncreaseText = FindObjectOfType<MoneyIncreaseText>();
             target = FindObjectOfType<TargetComponent>().transform;
@@ -99,7 +99,7 @@ namespace IdleTycoon.GasStation
             fuel = true;
             moneyIncreaseText.Fuel = true;
             stop = false;
-            GameManager.Instance.Money += config.Cost * ads.AdditionalMultiplier;
+            GameManager.Instance.Money += config.Cost * metaValues.SoftMoneyCoefficient;
         }
     }
 }

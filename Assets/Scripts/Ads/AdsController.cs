@@ -1,18 +1,28 @@
+using IdleTycoon.Configs;
+using IdleTycoon.Meta;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace IdleTycoon.Ads
 {
     public class AdsController : MonoBehaviour
     {
-        [SerializeField] private int adsMultiplier = 1;
         [SerializeField] private Button button;
 
         private RewardedAdsButton ads;
         private bool active = false;
 
-        public int AdditionalMultiplier => adsMultiplier;
+        private MetaValues metaValues;
+        private EconomicConfig economicConfig;
+
+        [Inject]
+        private void Init(MetaValues metaValues, EconomicConfig economicConfig)
+        {
+            this.economicConfig = economicConfig;
+            this.metaValues = metaValues;
+        }
 
         private void Awake()
         {
@@ -43,10 +53,10 @@ namespace IdleTycoon.Ads
 
         private IEnumerator AdsActiveTime()
         {
-            adsMultiplier = 2;
+            metaValues.SoftMoneyCoefficient = economicConfig.AdsFactorSoftMoney;
             button.interactable = false;
             yield return new WaitForSeconds(60);
-            adsMultiplier = 1;
+            metaValues.SoftMoneyCoefficient = economicConfig.DefaultFactorSoftMoney;
             button.interactable = true;
             active = false;
         }

@@ -1,4 +1,5 @@
 ﻿using IdleTycoon.GasStation;
+using IdleTycoon.Meta;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +12,9 @@ namespace IdleTycoon.Zenject
 
         public override void InstallBindings()
         {
+            Container.Bind<MetaValues>().AsSingle();
+            Container.Bind<IMetaValues>().To<MetaValues>().FromResolve();
+
             Container.BindMemoryPool<CarMovable, CarMovablePool>()
                 .ExpandByOneAtATime()
                 .FromComponentInNewPrefab(carMovablePrefab)

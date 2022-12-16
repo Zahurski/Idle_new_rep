@@ -1,5 +1,6 @@
 using IdleTycoon.Ads;
 using IdleTycoon.Configs;
+using IdleTycoon.Meta;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -14,12 +15,14 @@ namespace IdleTycoon.GasStation
 
         private AdsController ads;
         private GasStationConfig config;
+        private IMetaValues metaValues;
 
         public bool Fuel { get; set; }
 
         [Inject]
-        public void Init(GasStationConfig config)
+        public void Init(GasStationConfig config, IMetaValues metaValues)
         {
+            this.metaValues = metaValues;
             this.config = config;
         }
 
@@ -33,7 +36,7 @@ namespace IdleTycoon.GasStation
             if (Fuel)
             {
                 ShowFuelText();
-                text.text = "+" + FormatNums.FormatNum(config.Cost * ads.AdditionalMultiplier);
+                text.text = "+" + FormatNums.FormatNum(config.Cost * metaValues.SoftMoneyCoefficient);
             }
             else
             {
