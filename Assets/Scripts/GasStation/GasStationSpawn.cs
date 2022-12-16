@@ -34,17 +34,10 @@ namespace IdleTycoon.GasStation
             if (!spawnDelay) return;
 
             CarMovable carMovable = carMovablePool.Spawn(spawn.position, Quaternion.identity);
-            carMovable.MovedEnd += CarMovableOnMovedEnd;
 
             isAvailable = false;
             spawnDelay = false;
             StartCoroutine(SpawnDelay());
-        }
-
-        private void CarMovableOnMovedEnd(CarMovable carMovable)
-        {
-            carMovable.MovedEnd -= CarMovableOnMovedEnd;
-            carMovablePool.Despawn(carMovable);
         }
 
         private void OnTriggerEnter(Collider other)
