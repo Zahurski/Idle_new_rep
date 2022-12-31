@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": "2.3.3",
     "com.greenbamboogames.assetquickaccess": "1.1.0",
     "com.unity.ads": "4.3.0",
     "com.unity.collab-proxy": "1.17.6",
@@ -50,8 +51,8 @@
       "name": "OpenUPM",
       "url": "https://package.openupm.com",
       "scopes": [
-        "com.openupm",
-        "com.greenbamboogames.assetquickaccess"
+        "com.greenbamboogames.assetquickaccess",
+        "com.cysharp.unitask"
       ]
     }
   ]
