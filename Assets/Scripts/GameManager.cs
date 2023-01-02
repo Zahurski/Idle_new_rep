@@ -1,116 +1,118 @@
 using System;
 using System.Globalization;
-//using SDK;
-using Unity.VisualScripting;
 using UnityEngine;
 
-
-public class GameManager : MonoBehaviour
+namespace IdleTycoon
 {
-    private const string LAST_PLAYED_TIME = "LastPlayedTime";
-    private const string MONEY = "Money";
-    private const string DIAMOND = "Diamond";
-    public static GameManager Instance;
-
-    private UIManager _uiManager;
-    //private FirebaseSave _firebaseSave;
-    
-    private float _money = 0;
-    private int _diamond = 0;
-    public Action<float> OnMoneyValueChange = null;
-    public Action<float> OnDiamondValueChange = null;
-    public Action IncreaseMoney;
-    public Action LoadData;
-    
-    public static string LastPlayedTime => LAST_PLAYED_TIME;
-    
-    private void Awake()
+    public class GameManager : MonoBehaviour
     {
-        if (Instance == null)
+        private const string LAST_PLAYED_TIME = "LastPlayedTime";
+        private const string MONEY = "Money";
+        private const string DIAMOND = "Diamond";
+
+        public static string LastPlayedTime => LAST_PLAYED_TIME;
+        public static GameManager Instance { get; set; }
+
+        private UIManager uiManager;
+        //private FirebaseSave _firebaseSave;
+
+        private float money = 0;
+        private int diamond = 0;
+
+        public Action<float> OnMoneyValueChange { get; set; } = null;
+        public Action<float> OnDiamondValueChange { get; set; } = null;
+        public Action IncreaseMoney { get; set; }
+        public Action LoadData { get; set; }
+
+
+        private void Awake()
         {
-            Instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+
+            uiManager = FindObjectOfType<UIManager>();
+            //_firebaseSave = FindObjectOfType<FirebaseSave>();
         }
 
-        _uiManager = FindObjectOfType<UIManager>();
-        //_firebaseSave = FindObjectOfType<FirebaseSave>();
-    }
-
-    private void Start()
-    {
-        Load();
-        //LoadDataTest();
-    }
-
-    // private async void LoadDataTest()
-    // {
-    //     await _firebaseSave.LoadData();
-    // }
-
-    public float Money
-    {
-        get => _money;
-
-        set
+        private void Start()
         {
-            if (value >= 0)
+            Load();
+            //LoadDataTest();
+        }
+
+        // private async void LoadDataTest()
+        // {
+        //     await _firebaseSave.LoadData();
+        // }
+
+        public float Money
+        {
+            get => money;
+
+            set
             {
-                var currentMoney = value;
-                if (currentMoney - _money >= 0)
+                if (value >= 0)
                 {
-                    IncreaseMoney?.Invoke();
+                    var currentMoney = value;
+                    if (currentMoney - money >= 0)
+                    {
+                        IncreaseMoney?.Invoke();
+                    }
+
+                    money = value;
+                    money = (float)Math.Round(money, 0);
+                    OnMoneyValueChange?.Invoke(money);
                 }
-                _money = value;
-                _money = (float) Math.Round(_money, 0);
-                OnMoneyValueChange?.Invoke(_money);
             }
         }
-    }
-    
-    public int Diamond
-    {
-        get => _diamond;
 
-        set
+        public int Diamond
         {
-            if (value >= 0)
+            get => diamond;
+
+            set
             {
-                _diamond = value;
-                OnDiamondValueChange?.Invoke(_diamond);
-                
+                if (value >= 0)
+                {
+                    diamond = value;
+                    OnDiamondValueChange?.Invoke(diamond);
+                }
             }
         }
-    }
 
-    private void OnApplicationQuit()
-    {
-        //_firebaseSave.SaveData();
-        PlayerPrefs.SetFloat(MONEY, _money);
-        PlayerPrefs.SetInt(DIAMOND, _diamond);
-        PlayerPrefs.SetString(LAST_PLAYED_TIME, DateTime.UtcNow.ToString(CultureInfo.CurrentCulture));
-    }
+        private void OnApplicationQuit()
+        {
+            //_firebaseSave.SaveData();
+            PlayerPrefs.SetFloat(MONEY, money);
+            PlayerPrefs.SetInt(DIAMOND, diamond);
+            PlayerPrefs.SetString(LAST_PLAYED_TIME, DateTime.UtcNow.ToString(CultureInfo.CurrentCulture));
+        }
 
-    private void Load()
-    {
-        if (!PlayerPrefs.HasKey(MONEY))
+        private void Load()
         {
-            PlayerPrefs.SetFloat(MONEY, 0);
-            _uiManager.ShowGameScreen();
+            if (!PlayerPrefs.HasKey(MONEY))
+            {
+                PlayerPrefs.SetFloat(MONEY, 0);
+                uiManager.ShowGameScreen();
+            }
+            else
+            {
+                uiManager.Initialize();
+                //_money = PlayerPrefs.GetFloat(MONEY);
+            }
+
+            if (!PlayerPrefs.HasKey(DIAMOND))
+            {
+                PlayerPrefs.SetInt(DIAMOND, 0);
+            }
+            else
+            {
+                diamond = PlayerPrefs.GetInt(DIAMOND);
+            }
+
+            LoadData?.Invoke();
         }
-        else
-        {
-            _uiManager.Initialize();
-            //_money = PlayerPrefs.GetFloat(MONEY);
-        }
-        
-        if (!PlayerPrefs.HasKey(DIAMOND))
-        {
-            PlayerPrefs.SetInt(DIAMOND, 0);
-        }
-        else
-        {
-            _diamond = PlayerPrefs.GetInt(DIAMOND);
-        }
-        
-        LoadData?.Invoke();
     }
 }

@@ -1,25 +1,27 @@
-using System;
-using System.Globalization;
-using Ads;
+using IdleTycoon.Configs;
+using IdleTycoon.Meta;
 using TMPro;
 using UnityEngine;
-using GasStation.Config;
+using Zenject;
 
-namespace GasStation
+namespace IdleTycoon.GasStation
 {
     public class MoneyIncreaseText : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI text;
-        [SerializeField] private GasStationConfig config;
-        private readonly Vector3 _targetPositionText = new(0, 4, 0);
-        
-        private AdsController _ads;
+
+        private readonly Vector3 targetPositionText = new Vector3(0, 4, 0);
+
+        private GasStationConfig config;
+        private IMetaValues metaValues;
 
         public bool Fuel { get; set; }
 
-        private void Awake()
+        [Inject]
+        public void Init(GasStationConfig config, IMetaValues metaValues)
         {
-            _ads = FindObjectOfType<AdsController>();
+            this.metaValues = metaValues;
+            this.config = config;
         }
 
         private void Update()
@@ -27,7 +29,7 @@ namespace GasStation
             if (Fuel)
             {
                 ShowFuelText();
-                text.text = "+" + FormatNums.FormatNum(config.Cost * _ads.AdvMultiplier);
+                text.text = "+" + FormatNums.FormatNum(config.Cost * metaValues.SoftMoneyCoefficient);
             }
             else
             {
@@ -38,8 +40,9 @@ namespace GasStation
 
         private void ShowFuelText()
         {
-            if (text.transform.position == _targetPositionText) Fuel = false;
-            text.transform.position = Vector3.MoveTowards(text.transform.position, _targetPositionText, 2 * Time.deltaTime);
+            if (text.transform.position == targetPositionText) Fuel = false;
+            text.transform.position =
+                Vector3.MoveTowards(text.transform.position, targetPositionText, 2 * Time.deltaTime);
         }
     }
 }

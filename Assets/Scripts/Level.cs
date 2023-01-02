@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
-namespace DefaultNamespace
+namespace IdleTycoon
 {
     public class Level : MonoBehaviour
     {
@@ -12,16 +12,16 @@ namespace DefaultNamespace
         [SerializeField] private GameObject levelContainer;
         [SerializeField] private GameObject levelMenu;
         [SerializeField] private Image levelImage;
-        
-        private UIManager _uiManager;
 
-        private int _level = 1;
+        private UIManager uiManager;
 
-        private Action _activeUpMenu;
+        private int level = 1;
+
+        private Action activeUpMenu;
 
         private void Awake()
         {
-            _uiManager = FindObjectOfType<UIManager>();
+            uiManager = FindObjectOfType<UIManager>();
         }
 
         private void Start()
@@ -32,18 +32,18 @@ namespace DefaultNamespace
         private void Initialize()
         {
             levelImage.fillAmount = 0f;
-            _activeUpMenu += StartCoroutineShakeButton;
+            activeUpMenu += StartCoroutineShakeButton;
             StartCoroutine(IncreaseLevel());
         }
 
         private IEnumerator IncreaseLevel()
         {
-            while(Math.Abs(levelImage.fillAmount - 1) > 0)
+            while (Math.Abs(levelImage.fillAmount - 1) > 0)
             {
-                levelImage.fillAmount += 1f / (_level * 5) * Time.deltaTime;
+                levelImage.fillAmount += 1f / (level * 5) * Time.deltaTime;
                 yield return null;
             }
-            
+
             StopCoroutine(IncreaseLevel());
             LevelUpMenu();
         }
@@ -52,13 +52,13 @@ namespace DefaultNamespace
         {
             levelContainer.SetActive(false);
             levelUpButton.gameObject.SetActive(true);
-            _activeUpMenu?.Invoke();
+            activeUpMenu?.Invoke();
         }
 
         private void StartCoroutineShakeButton()
         {
             StartCoroutine(ShakeButton());
-            _activeUpMenu -= StartCoroutineShakeButton;
+            activeUpMenu -= StartCoroutineShakeButton;
         }
 
         private IEnumerator ShakeButton()
@@ -74,23 +74,23 @@ namespace DefaultNamespace
 
         public void OnClick()
         {
-            _uiManager.ShowLevelMenu();
+            uiManager.ShowLevelMenu();
         }
 
         public void GetBonus()
         {
             StopCoroutine(ShakeButton());
             GameManager.Instance.Diamond += 10;
-            
-            if (_level < 4)
+
+            if (level < 4)
             {
-                _level++;
+                level++;
             }
-            
+
             levelUpButton.gameObject.SetActive(false);
             levelContainer.SetActive(true);
             Initialize();
-            _uiManager.Close();
+            uiManager.Close();
         }
     }
 }

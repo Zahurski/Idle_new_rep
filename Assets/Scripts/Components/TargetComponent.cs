@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Components
+namespace IdleTycoon.Components
 {
     public class TargetComponent : MonoBehaviour
     {

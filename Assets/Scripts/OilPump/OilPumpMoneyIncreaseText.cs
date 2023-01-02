@@ -1,32 +1,39 @@
-using System;
-using System.Globalization;
-using Ads;
-using Components;
+using IdleTycoon.Components;
+using IdleTycoon.Configs;
+using IdleTycoon.Meta;
 using TMPro;
 using UnityEngine;
-using OilPump.Config;
+using Zenject;
 
-namespace OilPump
+namespace IdleTycoon.OilPump
 {
     public class OilPumpMoneyIncreaseText : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI text;
-        [SerializeField] private OilPumpConfig config;
-        private Vector3 _targetPositionText;
-        private OilPumpComponent _oilPump;
-        private AdsController _ads;
+
+        private Vector3 targetPositionText;
+        private OilPumpComponent oilPump;
+
+        private OilPumpConfig config;
+        private IMetaValues metaValues;
 
         public bool Pump { get; set; }
 
+        [Inject]
+        private void Init(OilPumpConfig config, IMetaValues metaValues)
+        {
+            this.metaValues = metaValues;
+            this.config = config;
+        }
+
         private void Awake()
         {
-            _oilPump = FindObjectOfType<OilPumpComponent>();
-            _ads = FindObjectOfType<AdsController>();
+            oilPump = FindObjectOfType<OilPumpComponent>();
         }
 
         private void Start()
         {
-            _targetPositionText = new Vector3(_oilPump.transform.position.x, 4, _oilPump.transform.position.z);
+            targetPositionText = new Vector3(oilPump.transform.position.x, 4, oilPump.transform.position.z);
         }
 
         private void Update()
@@ -34,19 +41,20 @@ namespace OilPump
             if (Pump)
             {
                 ShowFuelText();
-                text.text = "+" + FormatNums.FormatNum(config.Cost * _ads.AdvMultiplier);
+                text.text = "+" + FormatNums.FormatNum(config.Cost * metaValues.SoftMoneyCoefficient);
             }
             else
             {
                 text.text = " ";
-                text.transform.position = new Vector3(_oilPump.transform.position.x, 3, _oilPump.transform.position.z);
+                text.transform.position = new Vector3(oilPump.transform.position.x, 3, oilPump.transform.position.z);
             }
         }
 
         private void ShowFuelText()
         {
-            if (text.transform.position == _targetPositionText) Pump = false;
-            text.transform.position = Vector3.MoveTowards(text.transform.position, _targetPositionText, 2 * Time.deltaTime);
+            if (text.transform.position == targetPositionText) Pump = false;
+            text.transform.position =
+                Vector3.MoveTowards(text.transform.position, targetPositionText, 2 * Time.deltaTime);
         }
     }
 }

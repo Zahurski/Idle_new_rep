@@ -1,53 +1,65 @@
-using System;
+using IdleTycoon.Configs;
 using System.Collections;
-using GasStation.Config;
 using UnityEngine;
+using Zenject;
 
-public class GasStationSpawn : MonoBehaviour
+namespace IdleTycoon.GasStation
 {
-    [SerializeField] private GameObject carPrefab;
-    [SerializeField] private Transform spawn;
-    [SerializeField] private GasStationConfig config;
-    private bool _isAvailable = true;
-    private bool _spawnDelay = true;
-
-    private Pool _pool;
-
-    private void Start()
+    public class GasStationSpawn : MonoBehaviour
     {
-        _pool = FindObjectOfType<Pool>();
-        StartCoroutine(SpawnDelay());
-    }
+        [SerializeField] private GameObject carPrefab;
+        [SerializeField] private Transform spawn;
 
-    private void Update()
-    {
-        if (!_isAvailable) return;
-        if (!_spawnDelay) return;
-        _pool.GetFreeElement(spawn.position, Quaternion.identity);
-        _isAvailable = false;
-        _spawnDelay = false;
-        StartCoroutine(SpawnDelay());
-    }
+        private bool isAvailable = true;
+        private bool spawnDelay = true;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Car"))
+        private GasStationConfig config;
+        private CarMovablePool carMovablePool;
+
+        [Inject]
+        private void Init(GasStationConfig config, CarMovablePool carMovablePool)
         {
-            _isAvailable = false;
+            this.carMovablePool = carMovablePool;
+            this.config = config;
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Car"))
+        private void Start()
         {
-            _isAvailable = true;
+            StartCoroutine(SpawnDelay());
         }
-    }
 
-    private IEnumerator SpawnDelay()
-    {
-        yield return new WaitForSeconds(config.SpawnDelay);
-        _spawnDelay = true;
+        private void Update()
+        {
+            if (!isAvailable) return;
+            if (!spawnDelay) return;
+
+            CarMovable carMovable = carMovablePool.Spawn(spawn.position, Quaternion.identity);
+
+            isAvailable = false;
+            spawnDelay = false;
+            StartCoroutine(SpawnDelay());
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Car"))
+            {
+                isAvailable = false;
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.CompareTag("Car"))
+            {
+                isAvailable = true;
+            }
+        }
+
+        private IEnumerator SpawnDelay()
+        {
+            yield return new WaitForSeconds(config.SpawnDelay);
+            spawnDelay = true;
+        }
     }
 }

@@ -1,94 +1,110 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Globalization;
-using Ads;
-using GasStation.Config;
-using OilPump.Config;
+using IdleTycoon.Ads;
+using IdleTycoon.Configs;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
-public class FirstLoad : MonoBehaviour
+namespace IdleTycoon
 {
-    
-    [SerializeField] private TextMeshProUGUI textMoneyOffline;
-    [SerializeField] private GasStationConfig gasStation;
-    [SerializeField] private OilPumpConfig oilPump;
-    [SerializeField] private Button button;
-    private RewardedAdsButton _ads;
-    private InterstitialAdExample _interstitial;
-    private UIManager _uiManager;
-    
-    private int _decreaseDiamond = 20;
-    private float _moneySum;
-    private float _totalMoney;
-    private bool _active = false;
+    public class FirstLoad : MonoBehaviour
+    {
+        [SerializeField] private TextMeshProUGUI textMoneyOffline;
+        [SerializeField] private Button button;
 
-    private void Awake()
-    {
-        _ads = FindObjectOfType<RewardedAdsButton>();
-        _interstitial = FindObjectOfType<InterstitialAdExample>();
-        _uiManager = FindObjectOfType<UIManager>();
-    }
+        private UIManager uiManager;
 
-    private void Start()
-    {
-        RefreshDiamondButton();
-        _moneySum = gasStation.Cost + oilPump.Cost;
-        CalculateOfflineIncome();
-        textMoneyOffline.text = "Пока вас не было\nвы заработали: " + FormatNums.FormatNum(_totalMoney);
-        _ads.RewardedAdsShowComplete += GetBounty;
-    }
+        private int decreaseDiamond = 20;
+        private float moneySum;
+        private float totalMoney;
+        private bool active = false;
 
-    private void RefreshDiamondButton()
-    {
-        button.interactable = GameManager.Instance.Diamond > _decreaseDiamond;
-    }
-    
-    public void Getx3()
-    {
-        GameManager.Instance.Diamond -= _decreaseDiamond;
-        GameManager.Instance.Money += (float)Math.Round(_totalMoney * 3, 0);
-        _uiManager.Close();
-        _interstitial.ShowAd();
-    }
-    
-    public void Getx2()
-    {
-        _active = true;
-        _ads.ShowAd();
-    }
-    
-    public void Getx1()
-    {
-        GameManager.Instance.Money += (float)Math.Round(_totalMoney, 0);
-        print("Добавлено: " + (float)Math.Round(_totalMoney, 0));
-        _ads.RewardedAdsShowComplete -= GetBounty;
-        _uiManager.Close();
-    }
+        private GasStationConfig gasStation;
+        private OilPumpConfig oilPump;
+        private IInterstitialAd interstitialAd;
+        private IRewardedAd rewardedAd;
 
-    private void GetBounty()
-    {
-        if(!_active) return;
-        GameManager.Instance.Money += (float)Math.Round(_totalMoney * 2, 0);
-        print("Добавлено: " + (float)Math.Round(_totalMoney, 0));
-        _ads.RewardedAdsShowComplete -= GetBounty;
-        _active = false;
-        _uiManager.Close();
-    }
-    
-    private void CalculateOfflineIncome()
-    {
-        var lastPlayedTimeString = PlayerPrefs.GetString(GameManager.LastPlayedTime, null);
-        if(lastPlayedTimeString == null) return;
+        [Inject]
+        private void Init(GasStationConfig gasStation, OilPumpConfig oilPump)
+        {
+            this.oilPump = oilPump;
+            this.gasStation = gasStation;
+        }
 
-        var lastPlayedTime = DateTime.Parse(lastPlayedTimeString, CultureInfo.CurrentCulture);
-        int timeSpanRestriction = 2 * 60 * 60;
-        double secondSpan = (DateTime.UtcNow - lastPlayedTime).TotalSeconds;
+        [Inject]
+        private void Init(IRewardedAd rewardedAd, IInterstitialAd interstitialAd)
+        {
+            this.rewardedAd = rewardedAd;
+            this.interstitialAd = interstitialAd;
+        }
 
-        if (secondSpan > timeSpanRestriction)
-            secondSpan = timeSpanRestriction;
+        private void Awake()
+        {
+            uiManager = FindObjectOfType<UIManager>();
+        }
 
-        _totalMoney = (float)secondSpan * _moneySum/10;
-        print("Вас небыло в игре: " + secondSpan + "Вы заработали: " + _totalMoney);
+        private void Start()
+        {
+            RefreshDiamondButton();
+            moneySum = gasStation.Cost + oilPump.Cost;
+            CalculateOfflineIncome();
+            textMoneyOffline.text = "Пока вас не было\nвы заработали: " + FormatNums.FormatNum(totalMoney);
+        }
+
+        private void RefreshDiamondButton()
+        {
+            button.interactable = GameManager.Instance.Diamond > decreaseDiamond;
+        }
+
+        public void Getx3()
+        {
+            GameManager.Instance.Diamond -= decreaseDiamond;
+            GameManager.Instance.Money += (float) Math.Round(totalMoney * 3, 0);
+            uiManager.Close();
+            //todo d.gankov: check the
+            interstitialAd.Show();
+        }
+
+        public void Getx2()
+        {
+            active = true;
+            //todo d.gankov: check the
+            rewardedAd.ShowAsync().Forget();
+        }
+
+        public void Getx1()
+        {
+            GameManager.Instance.Money += (float) Math.Round(totalMoney, 0);
+            print("Добавлено: " + (float) Math.Round(totalMoney, 0));
+            uiManager.Close();
+        }
+
+        private void GetBounty()
+        {
+            if (!active) return;
+            GameManager.Instance.Money += (float) Math.Round(totalMoney * 2, 0);
+            print("Добавлено: " + (float) Math.Round(totalMoney, 0));
+            active = false;
+            uiManager.Close();
+        }
+
+        private void CalculateOfflineIncome()
+        {
+            var lastPlayedTimeString = PlayerPrefs.GetString(GameManager.LastPlayedTime, null);
+            if (lastPlayedTimeString == null) return;
+
+            var lastPlayedTime = DateTime.Parse(lastPlayedTimeString, CultureInfo.CurrentCulture);
+            int timeSpanRestriction = 2 * 60 * 60;
+            double secondSpan = (DateTime.UtcNow - lastPlayedTime).TotalSeconds;
+
+            if (secondSpan > timeSpanRestriction)
+                secondSpan = timeSpanRestriction;
+
+            totalMoney = (float) secondSpan * moneySum / 10;
+            print("Вас небыло в игре: " + secondSpan + "Вы заработали: " + totalMoney);
+        }
     }
 }

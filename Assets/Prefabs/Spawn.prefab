@@ -60,4 +60,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carPrefab: {fileID: 0}
   spawn: {fileID: 8767598704615724330}
-  config: {fileID: 0}

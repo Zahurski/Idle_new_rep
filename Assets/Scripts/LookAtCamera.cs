@@ -1,20 +1,22 @@
-using System;
 using UnityEngine;
 
-public class LookAtCamera : MonoBehaviour
+namespace IdleTycoon
 {
-    private Vector3 _cameraPosition;
-    private Camera _camera;
-
-    private void Awake()
+    public class LookAtCamera : MonoBehaviour
     {
-        _camera = FindObjectOfType<Camera>();
-    }
+        private Vector3 cameraPosition;
+        private Camera localCamera;
 
-    private void Update()
-    {
-        _cameraPosition = _camera.transform.position;
-        var lookDirection = (transform.position - _cameraPosition).normalized;
-        transform.rotation = Quaternion.LookRotation(lookDirection);
+        private void Awake()
+        {
+            localCamera = FindObjectOfType<Camera>();
+        }
+
+        private void Update()
+        {
+            cameraPosition = localCamera.transform.position;
+            var lookDirection = (transform.position - cameraPosition).normalized;
+            transform.rotation = Quaternion.LookRotation(lookDirection);
+        }
     }
 }

@@ -1,92 +1,95 @@
-using System;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+namespace IdleTycoon
 {
-    [SerializeField] private new Camera camera;
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private Vector3 minValue, maxValue;
-
-    private UIManager _uiManager;
-    
-    private Vector3 _newZoom;
-    private Vector3 _newPosition;
-    private Vector3 _dragStartPosition;
-    private Vector3 _dragCurrentPosition;
-    private Vector3 _clampPosition;
-    private bool _moveble;
-    public bool Moveble => _moveble;
-
-    private void Awake()
+    public class CameraController : MonoBehaviour
     {
-        _uiManager = FindObjectOfType<UIManager>();
-    }
+        [SerializeField] private new Camera camera;
+        [SerializeField] private float movementSpeed;
+        [SerializeField] private Vector3 minValue, maxValue;
 
-    private void Start()
-    {
-        _newPosition = transform.position;
-    }
+        private UIManager uiManager;
 
-    private void Update()
-    {
-        if(_uiManager.CurrentScreen != _uiManager.GameScreen) return;
-        
-        _moveble = transform.position != _newPosition;
-        HandleMouseInput();
-        HandleMovementInput();
-    }
-    
-    private void HandleMouseInput()
-    {
-        //TODO: добавить скролы пальцами
-        if (Input.mouseScrollDelta.y >= 0 && camera.orthographicSize >= 8)
+        private Vector3 newZoom;
+        private Vector3 newPosition;
+        private Vector3 dragStartPosition;
+        private Vector3 dragCurrentPosition;
+        private Vector3 clampPosition;
+        private bool movable;
+
+        public bool Movable => movable;
+
+        private void Awake()
         {
-            camera.orthographicSize -= 1f;
+            uiManager = FindObjectOfType<UIManager>();
         }
-        
-        if (Input.mouseScrollDelta.y <= 0 && camera.orthographicSize <= 11)
+
+        private void Start()
         {
-            camera.orthographicSize += 1f;
+            newPosition = transform.position;
         }
-        
-        if (Input.GetMouseButtonDown(0))
+
+        private void Update()
         {
-            Plane plane = new Plane(Vector3.up, Vector3.zero);
+            if (uiManager.CurrentScreen != uiManager.GameScreen) return;
 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            movable = transform.position != newPosition;
+            HandleMouseInput();
+            HandleMovementInput();
+        }
 
-            float entry;
-            
-            if(plane.Raycast(ray, out entry))
+        private void HandleMouseInput()
+        {
+            //TODO: добавить скролы пальцами
+            if (Input.mouseScrollDelta.y >= 0 && camera.orthographicSize >= 8)
             {
-                _dragStartPosition = ray.GetPoint(entry);
+                camera.orthographicSize -= 1f;
+            }
+
+            if (Input.mouseScrollDelta.y <= 0 && camera.orthographicSize <= 11)
+            {
+                camera.orthographicSize += 1f;
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Plane plane = new Plane(Vector3.up, Vector3.zero);
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                float entry;
+
+                if (plane.Raycast(ray, out entry))
+                {
+                    dragStartPosition = ray.GetPoint(entry);
+                }
+            }
+
+            if (Input.GetMouseButton(0))
+            {
+                Plane plane = new Plane(Vector3.up, Vector3.zero);
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                float entry;
+
+                if (plane.Raycast(ray, out entry))
+                {
+                    dragCurrentPosition = ray.GetPoint(entry);
+
+                    newPosition = transform.position + dragStartPosition - dragCurrentPosition;
+
+                    clampPosition = new Vector3(
+                        Mathf.Clamp(newPosition.x, minValue.x, maxValue.x),
+                        Mathf.Clamp(newPosition.y, minValue.y, maxValue.y),
+                        Mathf.Clamp(newPosition.z, minValue.z, maxValue.z));
+                }
             }
         }
 
-        if (Input.GetMouseButton(0))
+        private void HandleMovementInput()
         {
-            Plane plane = new Plane(Vector3.up, Vector3.zero);
-
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            float entry;
-            
-            if(plane.Raycast(ray, out entry))
-            {
-                _dragCurrentPosition = ray.GetPoint(entry);
-
-                _newPosition = transform.position + _dragStartPosition - _dragCurrentPosition;
-                
-                _clampPosition = new Vector3(
-                    Mathf.Clamp(_newPosition.x, minValue.x, maxValue.x),
-                    Mathf.Clamp(_newPosition.y, minValue.y, maxValue.y),
-                    Mathf.Clamp(_newPosition.z, minValue.z, maxValue.z));
-            }
+            transform.position = Vector3.Lerp(transform.position, clampPosition, movementSpeed * Time.deltaTime);
         }
-    }
-    
-    private void HandleMovementInput()
-    {
-        transform.position = Vector3.Lerp(transform.position, _clampPosition, movementSpeed * Time.deltaTime);
     }
 }

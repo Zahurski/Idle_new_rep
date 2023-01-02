@@ -1,17 +1,26 @@
-using GasStation.Config;
+using IdleTycoon.Configs;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
-namespace GasStation
+namespace IdleTycoon.GasStation
 {
     public class FuelingLoading : BaseLoadingCircle
     {
         [SerializeField] private Image loadingImage;
-        [SerializeField] GasStationConfig config;
         [SerializeField] private Canvas canvas;
-        private bool _deactivateTimer;
+
+        private bool deactivateTimer;
+
+        private GasStationConfig config;
 
         public bool IsActive { get; set; }
+
+        [Inject]
+        private void Init(GasStationConfig config)
+        {
+            this.config = config;
+        }
 
         private void Awake()
         {

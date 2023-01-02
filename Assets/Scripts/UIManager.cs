@@ -2,79 +2,83 @@ using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class UIManager : MonoBehaviour
+namespace IdleTycoon
 {
-    [SerializeField] private GameObject gameScreen;
-    [SerializeField] private GameObject gasStationUpgradeMenu;
-    [SerializeField] private GameObject oilPumpUpgradeMenu;
-    [SerializeField] private GameObject firtsEntry;
-    [SerializeField] private GameObject levelMenu;
-    [SerializeField] private GameObject settings;
-    
-    private GameObject _currentScreen;
-    
-    public event Action CloseMenu;
+    public class UIManager : MonoBehaviour
+    {
+        [SerializeField] private GameObject gameScreen;
+        [SerializeField] private GameObject gasStationUpgradeMenu;
+        [SerializeField] private GameObject oilPumpUpgradeMenu;
+        [FormerlySerializedAs("firtsEntry")] 
+        [SerializeField] private GameObject firstEntry;
+        [SerializeField] private GameObject levelMenu;
+        [SerializeField] private GameObject settings;
 
-    public GameObject CurrentScreen => _currentScreen;
-    public GameObject GameScreen => gameScreen;
+        private GameObject currentScreen;
 
-    private void Awake()
-    {
-        _currentScreen = gameScreen;
-    }
+        public event Action CloseMenu;
 
-    public void Initialize()
-    {
-        ShowFirstEntryMenu();
-    }
+        public GameObject CurrentScreen => currentScreen;
+        public GameObject GameScreen => gameScreen;
 
-    public void ShowGameScreen()
-    {
-        _currentScreen.SetActive(false);
-        gameScreen.SetActive(true);
-        _currentScreen = gameScreen;
-    }
-    
-    public void ShowFirstEntryMenu()
-    {
-        _currentScreen.SetActive(false);
-        firtsEntry.SetActive(true);
-        _currentScreen = firtsEntry;
-    }
-    
-    public void ShowSettingsMenu()
-    {
-        _currentScreen.SetActive(false);
-        settings.SetActive(true);
-        _currentScreen = settings;
-    }
+        private void Awake()
+        {
+            currentScreen = gameScreen;
+        }
 
-    public void ShowGasStationUpgradeMenu()
-    {
-        _currentScreen.SetActive(false);
-        gasStationUpgradeMenu.SetActive(true);
-        _currentScreen = gasStationUpgradeMenu;
-    }
+        public void Initialize()
+        {
+            ShowFirstEntryMenu();
+        }
 
-    public void ShowOilPumpUpgradeMenu()
-    {
-        _currentScreen.SetActive(false);
-        oilPumpUpgradeMenu.SetActive(true);
-        _currentScreen = oilPumpUpgradeMenu;
-    }
+        public void ShowGameScreen()
+        {
+            currentScreen.SetActive(false);
+            gameScreen.SetActive(true);
+            currentScreen = gameScreen;
+        }
 
-    public void ShowLevelMenu()
-    {
-        _currentScreen.SetActive(false);
-        levelMenu.SetActive(true);
-        _currentScreen = levelMenu;
-    }
+        public void ShowFirstEntryMenu()
+        {
+            currentScreen.SetActive(false);
+            firstEntry.SetActive(true);
+            currentScreen = firstEntry;
+        }
 
-    public void Close()
-    {
-        CloseMenu?.Invoke();
-        _currentScreen.SetActive(false);
-        _currentScreen = gameScreen;
-        _currentScreen.SetActive(true);
+        public void ShowSettingsMenu()
+        {
+            currentScreen.SetActive(false);
+            settings.SetActive(true);
+            currentScreen = settings;
+        }
+
+        public void ShowGasStationUpgradeMenu()
+        {
+            currentScreen.SetActive(false);
+            gasStationUpgradeMenu.SetActive(true);
+            currentScreen = gasStationUpgradeMenu;
+        }
+
+        public void ShowOilPumpUpgradeMenu()
+        {
+            currentScreen.SetActive(false);
+            oilPumpUpgradeMenu.SetActive(true);
+            currentScreen = oilPumpUpgradeMenu;
+        }
+
+        public void ShowLevelMenu()
+        {
+            currentScreen.SetActive(false);
+            levelMenu.SetActive(true);
+            currentScreen = levelMenu;
+        }
+
+        public void Close()
+        {
+            CloseMenu?.Invoke();
+            currentScreen.SetActive(false);
+            currentScreen = gameScreen;
+            currentScreen.SetActive(true);
+        }
     }
 }

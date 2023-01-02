@@ -1,48 +1,55 @@
-using System;
-using GasStation.Config;
-using TMPro;
+using IdleTycoon.Configs;
 using UnityEngine;
+using Zenject;
 
-namespace GasStation
+namespace IdleTycoon.GasStation
 {
     public class UpgradableGasStation : MonoBehaviour
     {
         [SerializeField] private GasStationButtonController button;
-        [SerializeField] private GasStationConfig config;
-        private float _currentCost = 0f;
-        private float _currentFuelingTime;
 
-        public float CurrentCost => _currentCost;
+        private float currentCost = 0f;
+        private float currentFuelingTime;
+
+        private GasStationConfig config;
+
+        public float CurrentCost => currentCost;
+
+        [Inject]
+        private void Init(GasStationConfig config)
+        {
+            this.config = config;
+        }
 
         private void Start()
         {
-            if (_currentCost < config.StartUpgradeCost)
+            if (currentCost < config.StartUpgradeCost)
             {
-                _currentCost = config.StartUpgradeCost;
+                currentCost = config.StartUpgradeCost;
             }
-            
+
             button.RefreshGasStationInfo();
             RefreshFuelingBar();
         }
 
         public void UpgradeCost()
         {
-            if (GameManager.Instance.Money >= _currentCost)
+            if (GameManager.Instance.Money >= currentCost)
             {
                 //TODO: связать цену с уровнем 
                 config.Level++;
                 config.Cost++;
-                GameManager.Instance.Money -= _currentCost;
+                GameManager.Instance.Money -= currentCost;
                 button.RefreshGasStationInfo();
-                var newCost = _currentCost + _currentCost * config.CostMultiplier;
-                _currentCost = newCost;
+                var newCost = currentCost + currentCost * config.CostMultiplier;
+                currentCost = newCost;
             }
         }
 
         public void UpgradeFueling()
         {
             //TODO: добавить интеректибл кнопки
-            if(config.LevelFueling == 50) return;
+            if (config.LevelFueling == 50) return;
 
             if (GameManager.Instance.Money >= config.CostFueling)
             {
@@ -54,14 +61,15 @@ namespace GasStation
                 {
                     button.fuelingProgressBar.fillAmount += 1f / (50 - config.LevelFueling);
                 }
+
                 button.RefreshGasStationInfo();
             }
         }
 
         public void UpgradeSpawnDelay()
         {
-            if(config.LevelSpawnDelay == 50) return;
-            
+            if (config.LevelSpawnDelay == 50) return;
+
             if (GameManager.Instance.Money >= config.CostSpawnDelay)
             {
                 config.LevelSpawnDelay++;
@@ -72,6 +80,7 @@ namespace GasStation
                 {
                     button.spawnProgressBar.fillAmount += 1f / (50 - config.LevelSpawnDelay);
                 }
+
                 button.RefreshGasStationInfo();
             }
         }
@@ -82,7 +91,7 @@ namespace GasStation
             {
                 button.fuelingProgressBar.fillAmount = 1f / (50f / config.LevelFueling);
             }
-            
+
             if (config.LevelSpawnDelay != 0)
             {
                 button.spawnProgressBar.fillAmount = 1f / (50f / config.LevelSpawnDelay);
