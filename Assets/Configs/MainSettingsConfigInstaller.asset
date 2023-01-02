@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c8f71d0c52648228e8bad00e67736ce, type: 3}
-  m_Name: GameSettingsConfig
+  m_Name: MainSettingsConfigInstaller
   m_EditorClassIdentifier: 
   gasStationConfig: {fileID: 11400000, guid: 9d2f267ffaac6dc40964417d99273939, type: 2}
   oilPumpConfig: {fileID: 11400000, guid: ea2866a5d8bee3545a81f76d696675cf, type: 2}
+  economicConfig: {fileID: 11400000, guid: d21fe5e13806b7b4ab406d9416ae6133, type: 2}
+  adsConfig: {fileID: 11400000, guid: 4f6521110ff417849963c1ffdf687a4a, type: 2}
