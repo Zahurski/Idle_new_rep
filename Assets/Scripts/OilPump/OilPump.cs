@@ -1,5 +1,4 @@
 using System.Collections;
-using IdleTycoon.Ads;
 using IdleTycoon.Configs;
 using IdleTycoon.Meta;
 using UnityEngine;
@@ -10,7 +9,6 @@ namespace IdleTycoon.OilPump
     public class OilPump : MonoBehaviour
     {
         private bool complete;
-        private AdsController ads;
         private OilPumpMoneyIncreaseText oilPumpMoneyIncreaseText;
         private OilPumpLoading oilPumpLoading;
 
@@ -26,7 +24,6 @@ namespace IdleTycoon.OilPump
 
         private void Awake()
         {
-            ads = FindObjectOfType<AdsController>();
             oilPumpMoneyIncreaseText = FindObjectOfType<OilPumpMoneyIncreaseText>();
             oilPumpLoading = FindObjectOfType<OilPumpLoading>();
         }

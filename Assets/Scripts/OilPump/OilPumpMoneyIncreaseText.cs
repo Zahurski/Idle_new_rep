@@ -1,4 +1,3 @@
-using IdleTycoon.Ads;
 using IdleTycoon.Components;
 using IdleTycoon.Configs;
 using IdleTycoon.Meta;
@@ -14,7 +13,6 @@ namespace IdleTycoon.OilPump
 
         private Vector3 targetPositionText;
         private OilPumpComponent oilPump;
-        private AdsController ads;
 
         private OilPumpConfig config;
         private IMetaValues metaValues;
@@ -31,7 +29,6 @@ namespace IdleTycoon.OilPump
         private void Awake()
         {
             oilPump = FindObjectOfType<OilPumpComponent>();
-            ads = FindObjectOfType<AdsController>();
         }
 
         private void Start()
