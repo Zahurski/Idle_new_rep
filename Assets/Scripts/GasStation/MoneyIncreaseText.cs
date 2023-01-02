@@ -1,4 +1,3 @@
-using IdleTycoon.Ads;
 using IdleTycoon.Configs;
 using IdleTycoon.Meta;
 using TMPro;
@@ -13,7 +12,6 @@ namespace IdleTycoon.GasStation
 
         private readonly Vector3 targetPositionText = new Vector3(0, 4, 0);
 
-        private AdsController ads;
         private GasStationConfig config;
         private IMetaValues metaValues;
 
@@ -24,11 +22,6 @@ namespace IdleTycoon.GasStation
         {
             this.metaValues = metaValues;
             this.config = config;
-        }
-
-        private void Awake()
-        {
-            ads = FindObjectOfType<AdsController>();
         }
 
         private void Update()
