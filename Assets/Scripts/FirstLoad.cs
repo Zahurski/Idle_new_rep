@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Globalization;
 using IdleTycoon.Ads;
@@ -14,8 +15,6 @@ namespace IdleTycoon
         [SerializeField] private TextMeshProUGUI textMoneyOffline;
         [SerializeField] private Button button;
 
-        private RewardedAdsButton ads;
-        private InterstitialAdExample interstitial;
         private UIManager uiManager;
 
         private int decreaseDiamond = 20;
@@ -25,6 +24,8 @@ namespace IdleTycoon
 
         private GasStationConfig gasStation;
         private OilPumpConfig oilPump;
+        private IInterstitialAd interstitialAd;
+        private IRewardedAd rewardedAd;
 
         [Inject]
         private void Init(GasStationConfig gasStation, OilPumpConfig oilPump)
@@ -33,10 +34,15 @@ namespace IdleTycoon
             this.gasStation = gasStation;
         }
 
+        [Inject]
+        private void Init(IRewardedAd rewardedAd, IInterstitialAd interstitialAd)
+        {
+            this.rewardedAd = rewardedAd;
+            this.interstitialAd = interstitialAd;
+        }
+
         private void Awake()
         {
-            ads = FindObjectOfType<RewardedAdsButton>();
-            interstitial = FindObjectOfType<InterstitialAdExample>();
             uiManager = FindObjectOfType<UIManager>();
         }
 
@@ -46,7 +52,6 @@ namespace IdleTycoon
             moneySum = gasStation.Cost + oilPump.Cost;
             CalculateOfflineIncome();
             textMoneyOffline.text = "Пока вас не было\nвы заработали: " + FormatNums.FormatNum(totalMoney);
-            ads.RewardedAdsShowComplete += GetBounty;
         }
 
         private void RefreshDiamondButton()
@@ -57,31 +62,31 @@ namespace IdleTycoon
         public void Getx3()
         {
             GameManager.Instance.Diamond -= decreaseDiamond;
-            GameManager.Instance.Money += (float)Math.Round(totalMoney * 3, 0);
+            GameManager.Instance.Money += (float) Math.Round(totalMoney * 3, 0);
             uiManager.Close();
-            interstitial.ShowAd();
+            //todo d.gankov: check the
+            interstitialAd.Show();
         }
 
         public void Getx2()
         {
             active = true;
-            ads.ShowAd();
+            //todo d.gankov: check the
+            rewardedAd.ShowAsync().Forget();
         }
 
         public void Getx1()
         {
-            GameManager.Instance.Money += (float)Math.Round(totalMoney, 0);
-            print("Добавлено: " + (float)Math.Round(totalMoney, 0));
-            ads.RewardedAdsShowComplete -= GetBounty;
+            GameManager.Instance.Money += (float) Math.Round(totalMoney, 0);
+            print("Добавлено: " + (float) Math.Round(totalMoney, 0));
             uiManager.Close();
         }
 
         private void GetBounty()
         {
             if (!active) return;
-            GameManager.Instance.Money += (float)Math.Round(totalMoney * 2, 0);
-            print("Добавлено: " + (float)Math.Round(totalMoney, 0));
-            ads.RewardedAdsShowComplete -= GetBounty;
+            GameManager.Instance.Money += (float) Math.Round(totalMoney * 2, 0);
+            print("Добавлено: " + (float) Math.Round(totalMoney, 0));
             active = false;
             uiManager.Close();
         }
@@ -98,7 +103,7 @@ namespace IdleTycoon
             if (secondSpan > timeSpanRestriction)
                 secondSpan = timeSpanRestriction;
 
-            totalMoney = (float)secondSpan * moneySum / 10;
+            totalMoney = (float) secondSpan * moneySum / 10;
             print("Вас небыло в игре: " + secondSpan + "Вы заработали: " + totalMoney);
         }
     }
