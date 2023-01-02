@@ -19,6 +19,7 @@ namespace IdleTycoon.Configs
 
         private readonly float decreaseFueling = 0.05f;
         private readonly float decreaseSpawnDelay = 0.05f;
+
         public float StartUpgradeCost => startUpgradeCost;
         public float CostMultiplier => costMultiplier;
         public float CarSpeed => carSpeed;
