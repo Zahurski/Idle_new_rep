@@ -1,8 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using IdleTycoon.Ads;
-using IdleTycoon.UI.Views;
-using System;
-using System.Threading;
+﻿using IdleTycoon.UI.Views;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -19,17 +15,14 @@ namespace IdleTycoon.UI.Screens
         [SerializeField] private RectTransform hintEndPosition;
         [SerializeField] private string adNotInitializedMessage;
 
-        private IRewardedAd rewardedAd;
-        private IAdsInitializer adsInitializer;
-        private CancellationTokenSource adsInitializeWaitingCts;
         private HintsMessagesPool hintsMessagesPool;
+        private Game game;
 
         [Inject]
-        private void Init(IRewardedAd rewardedAd, IAdsInitializer adsInitializer, HintsMessagesPool hintsMessagesPool)
+        private void Init(Game game, HintsMessagesPool hintsMessagesPool)
         {
+            this.game = game;
             this.hintsMessagesPool = hintsMessagesPool;
-            this.adsInitializer = adsInitializer;
-            this.rewardedAd = rewardedAd;
 
             loadingAdRoot.SetActive(false);
         }
@@ -44,36 +37,15 @@ namespace IdleTycoon.UI.Screens
             adButtonUpSoftMoneyCoefficient.onClick.RemoveListener(AdButtonUpSoftMoneyCoefficientOnClick);
         }
 
-        private void AdButtonUpSoftMoneyCoefficientOnClick()
+        private async void AdButtonUpSoftMoneyCoefficientOnClick()
         {
-            if (adsInitializer.IsInitialized)
-            {
-                ShowRewardAdAsync().Forget();
-            }
-            else
+            bool result = await game.TryUpSoftMoneyCoefficientAsync();
+
+            if (!result)
             {
                 var hintMessage = hintsMessagesPool.Spawn(hintStartPosition, hintEndPosition, adNotInitializedMessage);
                 hintMessage.Show();
             }
-        }
-
-        private async UniTask ShowRewardAdAsync()
-        {
-            AsyncLazy<AdShowResultEnum> workTask = rewardedAd.ShowAsync().ToAsyncLazy();
-
-            UniTask delayTask = UniTask.Delay(TimeSpan.FromSeconds(delayShowLoadingAdRoot));
-
-            (bool hasResultLeft, AdShowResultEnum result) resultTask = await UniTask.WhenAny(workTask.Task, delayTask);
-
-            if (workTask.Task.Status == UniTaskStatus.Succeeded || workTask.Task.Status == UniTaskStatus.Canceled)
-            {
-                return;
-            }
-
-            loadingAdRoot.SetActive(true);
-            var result = await workTask;
-
-            loadingAdRoot.SetActive(false);
         }
     }
 }

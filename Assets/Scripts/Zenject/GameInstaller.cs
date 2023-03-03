@@ -1,5 +1,4 @@
 ﻿using IdleTycoon.GasStation;
-using IdleTycoon.Meta;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +15,9 @@ namespace IdleTycoon.Zenject
                 .ExpandByOneAtATime()
                 .FromComponentInNewPrefab(carMovablePrefab)
                 .UnderTransform(carsRoot);
+
+            Container.Bind<Game>().AsSingle();
+            Container.Bind<IAdShowcase>().To<AdShowcase>().AsSingle();
         }
     }
 }

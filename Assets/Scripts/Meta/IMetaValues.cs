@@ -2,6 +2,6 @@
 {
     public interface IMetaValues
     {
-        float SoftMoneyCoefficient { get; }
+        float SoftMoneyCoefficient { get; set; }
     }
 }
